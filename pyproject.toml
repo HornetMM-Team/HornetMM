@@ -1,0 +1,40 @@
+[build-system]
+requires = ["nuitka", "wheel", "setuptools"]
+build-backend = "nuitka.distutils.Build"
+
+[project]
+name = "my_project"
+version = "0.1.0"
+description = "A sample Python project built with Nuitka"
+authors = [
+    { name = "Barrett", email = "example@example.com" }
+]
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.10"
+dependencies = [
+    "customtkinter",
+    "pybanana",
+    "nuitka"
+]
+
+[tool.nuitka]
+# Main entry point of your app
+main = "base.py"
+
+# Optional flags
+standalone = true
+onefile = false
+remove-output = true
+show-progress = true
+enable-plugin = ["tk-inter"]  # Add any Nuitka plugins you need
+output-dir = "dist"
+
+# Optimization settings
+lto = true
+assume-yes-for-downloads = true
+
+# Include additional data files or folders if needed
+include-data-dir = [
+    "assets=assets"
+]
