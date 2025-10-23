@@ -15,11 +15,19 @@ jobs:
       matrix:
         os: [macos-latest, ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
-    timeout-minutes: 30   # optional, prevents long-running cancellation
+    timeout-minutes: 30   # prevents long-running jobs from being canceled
 
     steps:
       - name: Check-out repository
         uses: actions/checkout@v4
+
+      # macOS fix for Python library dependencies
+      - name: Install dependencies on macOS
+        if: runner.os == 'macOS'
+        run: |
+          brew update
+          brew install gettext
+          brew link --force gettext
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -43,6 +51,7 @@ jobs:
           output-dir: build
 
       - name: Upload Artifacts
+        if: success()
         uses: actions/upload-artifact@v4
         with:
           name: ${{ runner.os }} Build
