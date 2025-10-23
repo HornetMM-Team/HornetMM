@@ -1,6 +1,8 @@
-# Build python script into a stand-alone exe
-- uses: Nuitka/Nuitka-Action@main
+- name: Build with Nuitka
+  uses: Nuitka/Nuitka-Action@main
   with:
     nuitka-version: main
     script-name: base.py
-- name: "action"
+    mode: standalone
+    output-dir: dist
+    onefile: true
