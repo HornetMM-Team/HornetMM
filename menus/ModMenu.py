@@ -4,7 +4,7 @@ class ModMenu(customtkinter.CTkToplevel):
     def __init__(self, parent):
         super().__init__(parent)
         self.geometry("500x550")
-        self.title("Hai")
+        self.title("")
 
 
 if __name__ == "__main__":

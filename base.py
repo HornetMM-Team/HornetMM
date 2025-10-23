@@ -7,6 +7,8 @@ try:
     import pybanana
     from menus.ModMenu import ModMenu
     import os
+    from menus.SettingsMenu import Settings
+    from CTkMenuBar import CTkTitleMenu, CustomDropdownMenu
 
 
     #BepInEx/MonoMod Detection vars:
@@ -78,6 +80,13 @@ try:
             self.iconbitmap("./icon.ico")
             self.settings = settings.copy()
             self.last_modified = os.path.getmtime(settings_path)
+            self.menu = CTkTitleMenu(master=self)
+            self.button = self.menu.add_cascade("Menu")
+            self.dropdown = CustomDropdownMenu(widget=self.button)
+            self.dropdown.add_option("Quit")
+            self.submenu = self.dropdown.add_submenu("File")
+            self.submenu.add_option("Open Hollow Knight™ Path")
+            self.submenu.add_option("Open Hollow Knight: Silksong™ Path")
 
 
  
@@ -114,7 +123,33 @@ try:
                 width=220,
                 height=140
             )
+
+            
+
             self.silksong_button.pack(padx=80, pady=80)
+            
+                
+
+           # Settings button (opens Settings menu)
+            self.settings_button = customtkinter.CTkButton(
+                self,
+                text="⚙️",
+                width=40,
+                height=40,
+                corner_radius=8,
+                hover_color=("gray85", "gray25"),
+                fg_color="transparent",
+                command=self.open_settings
+            )
+            self.settings_button.place(x=10, y=10)
+            
+
+
+
+            if self.settings_button:
+                self.settings_menu = Settings(self)
+            
+            self.settings_button.place(x=10, y=10)
 
             self.theme_button = customtkinter.CTkButton(
                 self,
@@ -130,7 +165,17 @@ try:
             
             # Start monitoring settings file
             self.check_settings_update()
-        
+
+
+        def open_settings(self):
+            """Open the settings menu"""
+            try:
+                self.settings_menu = Settings(self)
+                self.settings_menu.show_again()
+            except Exception as e:
+                print(f"Failed to open settings menu: {e}")
+
+
         def find_hollow_knight_dir(self):
             self.selected_dir = filedialog.askdirectory(
                 title="Select The Hollow Knight Directory", 
