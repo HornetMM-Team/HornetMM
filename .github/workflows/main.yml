@@ -3,3 +3,4 @@
   with:
     nuitka-version: main
     script-name: base.py
+- name: "action"
