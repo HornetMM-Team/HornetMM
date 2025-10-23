@@ -1,4 +1,4 @@
-      - name: Build Windows executable
+- name: Build Windows executable
   uses: Nuitka/Nuitka-Action@main
   with:
     script-name: base.py
@@ -12,4 +12,3 @@
     disable-console: true
     windows-icon-from-ico: icon.ico
     enable-plugins: "tk-inter"
-
