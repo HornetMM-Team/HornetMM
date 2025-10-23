@@ -1,0 +1,100 @@
+name: Build HornetMM with Nuitka
+
+on:
+  push:
+    branches: [ main ]
+    tags:
+      - 'v*'
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            platform: Linux
+          - os: windows-latest
+            platform: Windows
+          - os: macos-latest
+            platform: macOS
+    
+    runs-on: ${{ matrix.os }}
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+        cache: 'pip'
+    
+    - name: Install system dependencies (Linux)
+      if: runner.os == 'Linux'
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y patchelf ccache
+    
+    - name: Install Python dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install nuitka ordered-set zstandard
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+      shell: bash
+    
+    - name: Build with Nuitka (Windows)
+      if: runner.os == 'Windows'
+      run: |
+        python -m nuitka ^
+          --onefile ^
+          --standalone ^
+          --disable-console ^
+          --enable-plugin=tk-inter ^
+          --windows-icon-from-ico=icon.ico ^
+          --output-dir=build ^
+          --output-filename=HornetMM-${{ matrix.platform }}.exe ^
+          --company-name="HornetMM" ^
+          --product-name="HornetMM" ^
+          --file-description="Hornet Mod Manager" ^
+          --assume-yes-for-downloads ^
+          main.py
+      # Remove --windows-icon-from-ico line if you don't have an icon
+    
+    - name: Build with Nuitka (Linux/macOS)
+      if: runner.os != 'Windows'
+      run: |
+        python -m nuitka \
+          --onefile \
+          --standalone \
+          --enable-plugin=tk-inter \
+          --output-dir=build \
+          --output-filename=HornetMM-${{ matrix.platform }} \
+          --assume-yes-for-downloads \
+          main.py
+    
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: HornetMM-${{ matrix.platform }}
+        path: |
+          build/HornetMM-*
+          build/*.exe
+          build/*.bin
+        if-no-files-found: error
+    
+    - name: Create Release (on tag)
+      if: startsWith(github.ref, 'refs/tags/')
+      uses: softprops/action-gh-release@v1
+      with:
+        files: |
+          build/HornetMM-*
+          build/*.exe
+        draft: false
+        prerelease: false
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
