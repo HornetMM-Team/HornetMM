@@ -15,6 +15,7 @@ jobs:
       matrix:
         os: [macos-latest, ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 30   # optional, prevents long-running cancellation
 
     steps:
       - name: Check-out repository
@@ -30,8 +31,7 @@ jobs:
             **/requirements*.txt
 
       - name: Install Dependencies
-        run: |
-          pip install -r requirements.txt
+        run: pip install --no-input -r requirements.txt
 
       - name: Build Executable
         uses: Nuitka/Nuitka-Action@main
