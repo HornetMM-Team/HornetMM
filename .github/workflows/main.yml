@@ -1,14 +1,15 @@
       - name: Build Windows executable
-        uses: Nuitka/Nuitka-Action@main
-        with:
-          script-name: base.py
-          output-dir: .
-          output-file: HornetMM.exe
-          include-data-dir: |
-            images=images
-            data=data
-          standalone: true
-          onefile: true
-          disable-console: true
-          windows-icon-from-ico: icon.ico
-          enable-plugins: tkinter
+  uses: Nuitka/Nuitka-Action@main
+  with:
+    script-name: base.py
+    output-dir: .
+    output-file: HornetMM.exe
+    include-data-dir: |
+      images=images
+      data=data
+    standalone: true
+    onefile: true
+    disable-console: true
+    windows-icon-from-ico: icon.ico
+    enable-plugins: "tk-inter"
+
