@@ -39,7 +39,6 @@ jobs:
         with:
           nuitka-version: main
           script-name: base.py               # ← **customise**: your entry-script
-          mode: standalone                   # optional: standalone vs module etc
           onefile: true                      # optional: use if you want a single executable
           output-dir: build                  # ← **customise**: where output goes   
 
