@@ -9,6 +9,7 @@ try:
     import os
     from menus.SettingsMenu import Settings
     from CTkMenuBar import CTkTitleMenu, CustomDropdownMenu
+    from menus.ModMenuSilksong import ModMenuSilksong
 
 
     #BepInEx/MonoMod Detection vars:
@@ -83,13 +84,10 @@ try:
             self.menu = CTkTitleMenu(master=self)
             self.button = self.menu.add_cascade("Menu")
             self.dropdown = CustomDropdownMenu(widget=self.button)
-            self.dropdown.add_option("Quit")
+            self.dropdown.add_option("Quit", command=self.quit)
             self.submenu = self.dropdown.add_submenu("File")
-            self.submenu.add_option("Open Hollow Knight™ Path")
-            self.submenu.add_option("Open Hollow Knight: Silksong™ Path")
-
-
- 
+            self.submenu.add_option("Open Hollow Knight™ Path", command=self.find_hollow_knight_dir)
+            self.submenu.add_option("Open Hollow Knight: Silksong™ Path", command=self.find_silksong_dir)
             
             self.label = customtkinter.CTkLabel(self, text='Please Choose Game', width=40, height=28, fg_color='transparent')
             self.label.pack(pady="10", padx="10")
@@ -121,7 +119,8 @@ try:
                 text="",
                 image=self.silksong_image,
                 width=220,
-                height=140
+                height=140,
+                command=self.work_silksong_button
             )
 
             
@@ -182,6 +181,12 @@ try:
                 initialdir=r"C:\Program Files (x86)\Steam\steamapps\common\Hollow Knight"
             )
             return self.selected_dir
+        def find_silksong_dir(self):
+            self.selected_dir_silksong = filedialog.askdirectory(
+                title="Select The Hollow Knight Silksong Directory", 
+                initialdir=r"C:\Program Files (x86)\Steam\steamapps\common\Hollow Knight Silksong"
+            )
+            return self.selected_dir_silksong
         def find_bepinex(self):
             bepinexfile = "winhttp.dll"
         def detect_monomod(self):
@@ -215,6 +220,23 @@ try:
                 if selected_path:
                     # Save the selected path
                     self.settings['hollowknightpath'] = selected_path
+                    with open('settings.json', 'w') as set:
+                        json.dump(self.settings, set, indent=4)
+                    print("Saved path:", selected_path)
+
+
+
+        def work_silksong_button(self):
+            with open('settings.json', 'r') as set:
+                data = json.load(set)
+                silksongpath = data.get('silksongpath', '')
+            if silksongpath != "":
+                self.mod_menu = ModMenuSilksong(self)
+            else:
+                selected_path = self.find_silksong_dir()
+                if selected_path:
+                    # Save the selected path
+                    self.settings['silksongpath'] = selected_path
                     with open('settings.json', 'w') as set:
                         json.dump(self.settings, set, indent=4)
                     print("Saved path:", selected_path)
