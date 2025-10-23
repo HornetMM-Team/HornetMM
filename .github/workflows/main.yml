@@ -41,8 +41,7 @@ jobs:
           script-name: base.py               # ← **customise**: your entry-script
           mode: standalone                   # optional: standalone vs module etc
           onefile: true                      # optional: use if you want a single executable
-          output-dir: build                  # ← **customise**: where output goes
-          include-hidden-files: true         # helpful for hidden .libs etc
+          output-dir: build                  # ← **customise**: where output goes   
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
