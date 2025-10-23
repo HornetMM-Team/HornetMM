@@ -34,16 +34,18 @@ jobs:
         run: pip install --no-input -r requirements.txt
 
       - name: Build Executable
-        uses: Nuitka/Nuitka-Action@main
-        with:
-          nuitka-version: main
-          script-name: base.py
-          onefile: true
-          enable-plugins: tkinter
-          output-dir: build
+        run: |
+          python -m nuitka \
+              --onefile \
+              --windows-disable-console \
+              --windows-icon-from-ico=icon.ico \
+              --include-data-dir=images=images \
+              --include-data-dir=menus=menus \
+              --enable-plugin=tk-inter \
+              --output-dir=build \
+              base.py
 
       - name: Upload Artifacts
-        if: success()
         uses: actions/upload-artifact@v4
         with:
           name: ${{ runner.os }} Build
