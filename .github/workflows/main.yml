@@ -1,50 +1,14 @@
-name: Build & Package Executables
-
-on:
-  push:
-    branches:
-      - main
-      - 'releases/**'
-  pull_request:
-    branches:
-      - main
-
-jobs:
-  build:
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-        python-version: [3.11]
-    runs-on: ${{ matrix.os }}
-    timeout-minutes: 90
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: ${{ matrix.python-version }}
-
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install wheel setuptools
-          pip install -r requirements.txt
-
-      - name: Build executable using Nuitka-Action
+      - name: Build Windows executable
         uses: Nuitka/Nuitka-Action@main
         with:
-          nuitka-version: main
-          script-name: base.py               # ← **customise**: your entry-script
-          onefile: true                      # optional: use if you want a single executable
-          output-dir: build                  # ← **customise**: where output goes   
-
-      - name: Upload build artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: build-${{ matrix.os }}
-          path: build/
-          include-hidden-files: true
+          script-name: main.py
+          output-dir: .
+          output-file: HornetMM.exe
+          include-data-dir: |
+            images=images
+            data=data
+          standalone: true
+          onefile: true
+          disable-console: true
+          windows-icon-from-ico: images/icon.ico
+          enable-plugins: tkinter
