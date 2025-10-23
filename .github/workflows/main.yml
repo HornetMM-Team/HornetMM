@@ -1,7 +1,7 @@
       - name: Build Windows executable
         uses: Nuitka/Nuitka-Action@main
         with:
-          script-name: main.py
+          script-name: base.py
           output-dir: .
           output-file: HornetMM.exe
           include-data-dir: |
@@ -10,5 +10,5 @@
           standalone: true
           onefile: true
           disable-console: true
-          windows-icon-from-ico: images/icon.ico
+          windows-icon-from-ico: icon.ico
           enable-plugins: tkinter
