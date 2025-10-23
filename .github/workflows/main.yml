@@ -1,52 +1,54 @@
-name: Build & Package Executables
+name: Build Executable
 
 on:
   push:
     branches:
       - main
-      - 'releases/**'
   pull_request:
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
   build:
     strategy:
-      fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-        python-version: [3.11]
+        os: [macos-latest, ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
-    timeout-minutes: 90
 
     steps:
-      - name: Checkout code
+      - name: Check-out repository
         uses: actions/checkout@v4
 
-      - name: Set up Python
+      - name: Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: '3.10'
+          architecture: 'x64'
+          cache: 'pip'
+          cache-dependency-path: |
+            **/requirements*.txt
 
-      - name: Install dependencies
+      - name: Install Dependencies
         run: |
-          python -m pip install --upgrade pip
-          pip install wheel setuptools
-          pip install -r requirements.txt
+          pip install -r requirements.txt -r requirements-dev.txt
 
-      - name: Build executable using Nuitka-Action
+      - name: Build Executable
         uses: Nuitka/Nuitka-Action@main
         with:
           nuitka-version: main
-          script-name: base.py               # ← **customise**: your entry-script
-          mode: standalone                   # optional: standalone vs module etc
-          onefile: true                      # optional: use if you want a single executable
-          output-dir: build                  # ← **customise**: where output goes
-          include-hidden-files: true         # helpful for hidden .libs etc
+          script-name: base.py
+          onefile: true
+          enable-plugins: tkinter
+          output-dir: build
 
-      - name: Upload build artifact
+      - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: build-${{ matrix.os }}
-          path: build/
+          name: ${{ runner.os }} Build
+          path: |
+            build/*.exe
+            build/*.bin
+            build/*.app/**/*
+            build/*.dist/**/*
           include-hidden-files: true
