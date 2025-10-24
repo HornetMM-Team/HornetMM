@@ -1,3 +1,2 @@
-from .ModMenu import ModMenu
+from .ModMenu import ModInstaller
 from .SettingsMenu import Settings
-from . ModMenuSilksong import ModMenuSilksong

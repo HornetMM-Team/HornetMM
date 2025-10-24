@@ -3,20 +3,13 @@ try:
     import json
     import os
     from tkinter import filedialog
-    from PIL import Image, ImageTk
-    import pybanana
-    from menus.ModMenu import ModMenu
-    import os
+    from PIL import Image
+    from menus.ModMenu import ModInstaller  # The class name is ModInstaller
     from menus.SettingsMenu import Settings
     from CTkMenuBar import CTkTitleMenu, CustomDropdownMenu
-    from menus.ModMenuSilksong import ModMenuSilksong
 
 
-    #BepInEx/MonoMod Detection vars:
-    bepinex = False
-    monomod = False
-
-
+    # Settings defaults
     defaults = {
         "theme": "system",
         "hollowknightpath": "",
@@ -44,9 +37,6 @@ try:
 
     # --- Step 3: Compare defaults vs current and fix missing/extra values ---
     changed = False
-
-
-    
     
     # Add missing keys from defaults
     for key, value in defaults.items():
@@ -78,9 +68,15 @@ try:
             super().__init__()
             self.geometry("560x650")
             self.title("Hornet Mod Manager")
-            self.iconbitmap("./icon.ico")
+            
+            # Handle icon gracefully if it doesn't exist
+            if os.path.exists("./icon.ico"):
+                self.iconbitmap("./icon.ico")
+            
             self.settings = settings.copy()
             self.last_modified = os.path.getmtime(settings_path)
+            
+            # Menu bar
             self.menu = CTkTitleMenu(master=self)
             self.button = self.menu.add_cascade("Menu")
             self.dropdown = CustomDropdownMenu(widget=self.button)
@@ -89,47 +85,60 @@ try:
             self.submenu.add_option("Open Hollow Knight™ Path", command=self.find_hollow_knight_dir)
             self.submenu.add_option("Open Hollow Knight: Silksong™ Path", command=self.find_silksong_dir)
             
-            self.label = customtkinter.CTkLabel(self, text='Please Choose Game', width=40, height=28, fg_color='transparent')
-            self.label.pack(pady="10", padx="10")
-            
-            self.hollow_image = customtkinter.CTkImage(
-                light_image=Image.open("images/HollowKnight.png"), 
-                dark_image=Image.open("images/HollowKnight.png"),
-                size=(200, 120)
+            # Title label
+            self.label = customtkinter.CTkLabel(
+                self, 
+                text='Please Choose Game', 
+                width=40, 
+                height=28, 
+                fg_color='transparent'
             )
+            self.label.pack(pady=10, padx=10)
             
-            self.silksong_image = customtkinter.CTkImage(
-                light_image=Image.open("images/silksong.png"),
-                dark_image=Image.open("images/silksong.png"),
-                size=(200, 120)
-            )
+            # Load images with error handling
+            try:
+                self.hollow_image = customtkinter.CTkImage(
+                    light_image=Image.open("images/HollowKnight.png"), 
+                    dark_image=Image.open("images/HollowKnight.png"),
+                    size=(200, 120)
+                )
+            except Exception as e:
+                print(f"Could not load Hollow Knight image: {e}")
+                self.hollow_image = None
+            
+            try:
+                self.silksong_image = customtkinter.CTkImage(
+                    light_image=Image.open("images/silksong.png"),
+                    dark_image=Image.open("images/silksong.png"),
+                    size=(200, 120)
+                )
+            except Exception as e:
+                print(f"Could not load Silksong image: {e}")
+                self.silksong_image = None
 
+            # Hollow Knight button
             self.hollow_button = customtkinter.CTkButton(
                 self,
-                text="", 
+                text="Hollow Knight" if not self.hollow_image else "", 
                 image=self.hollow_image,
                 width=220,
                 height=140,
                 command=self.work_hollow_button
             )
-            self.hollow_button.pack(padx=80, pady=80) 
+            self.hollow_button.pack(padx=80, pady=20) 
 
+            # Silksong button
             self.silksong_button = customtkinter.CTkButton(
                 self,
-                text="",
+                text="Silksong" if not self.silksong_image else "",
                 image=self.silksong_image,
                 width=220,
                 height=140,
                 command=self.work_silksong_button
             )
+            self.silksong_button.pack(padx=80, pady=20)
 
-            
-
-            self.silksong_button.pack(padx=80, pady=80)
-            
-                
-
-           # Settings button (opens Settings menu)
+            # Settings button
             self.settings_button = customtkinter.CTkButton(
                 self,
                 text="⚙️",
@@ -141,15 +150,8 @@ try:
                 command=self.open_settings
             )
             self.settings_button.place(x=10, y=10)
-            
 
-
-
-            if self.settings_button:
-                self.settings_menu = Settings(self)
-            
-            self.settings_button.place(x=10, y=10)
-
+            # Theme toggle button
             self.theme_button = customtkinter.CTkButton(
                 self,
                 text="🌓",
@@ -165,81 +167,77 @@ try:
             # Start monitoring settings file
             self.check_settings_update()
 
-
         def open_settings(self):
             """Open the settings menu"""
             try:
-                self.settings_menu = Settings(self)
-                self.settings_menu.show_again()
+                settings_menu = Settings(self)
+                settings_menu.show_again()
             except Exception as e:
                 print(f"Failed to open settings menu: {e}")
 
-
         def find_hollow_knight_dir(self):
-            self.selected_dir = filedialog.askdirectory(
+            """Open dialog to select Hollow Knight directory"""
+            selected_dir = filedialog.askdirectory(
                 title="Select The Hollow Knight Directory", 
                 initialdir=r"C:\Program Files (x86)\Steam\steamapps\common\Hollow Knight"
             )
-            return self.selected_dir
+            if selected_dir:
+                self.settings['hollowknightpath'] = selected_dir
+                with open(settings_path, 'w') as f:
+                    json.dump(self.settings, f, indent=4)
+                print(f"Hollow Knight path saved: {selected_dir}")
+            return selected_dir
+        
         def find_silksong_dir(self):
-            self.selected_dir_silksong = filedialog.askdirectory(
+            """Open dialog to select Silksong directory"""
+            selected_dir = filedialog.askdirectory(
                 title="Select The Hollow Knight Silksong Directory", 
                 initialdir=r"C:\Program Files (x86)\Steam\steamapps\common\Hollow Knight Silksong"
             )
-            return self.selected_dir_silksong
-        def find_bepinex(self):
-            bepinexfile = "winhttp.dll"
-        def detect_monomod(self):
-            monomod_files = [
-                "MonoMod.exe",
-                "Mono.Cecil.dll",
-                "MonoMod.Common.dll",
-                "MonoMod.Utils.dll",
-                "MonoMod.RuntimeDetour.dll",
-                "MonoMod.RuntimeDetour.HookGen.exe"
-            ]
-            
-            found = []
-            for root, _, files in os.walk(self.selected_dir):
-                for f in files:
-                    if f in monomod_files:
-                        found.append(os.path.join(root, f))
-            if found:
-                bepinex = True
-            
-
+            if selected_dir:
+                self.settings['silksongpath'] = selected_dir
+                with open(settings_path, 'w') as f:
+                    json.dump(self.settings, f, indent=4)
+                print(f"Silksong path saved: {selected_dir}")
+            return selected_dir
         
         def work_hollow_button(self):
-            with open('settings.json', 'r') as set:
-                data = json.load(set)
-                hollowpath = data.get('hollowknightpath', '')
-            if hollowpath != "":
-                self.mod_menu = ModMenu(self)
-            else:
-                selected_path = self.find_hollow_knight_dir()
-                if selected_path:
-                    # Save the selected path
-                    self.settings['hollowknightpath'] = selected_path
-                    with open('settings.json', 'w') as set:
-                        json.dump(self.settings, set, indent=4)
-                    print("Saved path:", selected_path)
-
-
+            """Handle Hollow Knight button click"""
+            try:
+                with open('settings.json', 'r') as f:
+                    data = json.load(f)
+                    hollowpath = data.get('hollowknightpath', '')
+                
+                if hollowpath and os.path.exists(hollowpath):
+                    # Path exists, open mod installer with saved path
+                    mod_installer = ModInstaller(self, install_path=hollowpath)
+                else:
+                    # No path or invalid path, ask user to select
+                    selected_path = self.find_hollow_knight_dir()
+                    if selected_path:
+                        # After saving, open mod installer with new path
+                        mod_installer = ModInstaller(self, install_path=selected_path)
+            except Exception as e:
+                print(f"Error opening Hollow Knight mod menu: {e}")
 
         def work_silksong_button(self):
-            with open('settings.json', 'r') as set:
-                data = json.load(set)
-                silksongpath = data.get('silksongpath', '')
-            if silksongpath != "":
-                self.mod_menu = ModMenuSilksong(self)
-            else:
-                selected_path = self.find_silksong_dir()
-                if selected_path:
-                    # Save the selected path
-                    self.settings['silksongpath'] = selected_path
-                    with open('settings.json', 'w') as set:
-                        json.dump(self.settings, set, indent=4)
-                    print("Saved path:", selected_path)
+            """Handle Silksong button click"""
+            try:
+                with open('settings.json', 'r') as f:
+                    data = json.load(f)
+                    silksongpath = data.get('silksongpath', '')
+                
+                if silksongpath and os.path.exists(silksongpath):
+                    # Path exists, open mod menu
+                    mod_menu = ModInstaller(self)
+                else:
+                    # No path or invalid path, ask user to select
+                    selected_path = self.find_silksong_dir()
+                    if selected_path:
+                        # After saving, open mod menu
+                        mod_menu = ModInstaller(self)
+            except Exception as e:
+                print(f"Error opening Silksong mod menu: {e}")
         
         def cycle_theme(self):
             """Cycle through themes: system -> light -> dark -> system"""
@@ -251,8 +249,8 @@ try:
             self.settings["theme"] = next_theme
             
             # Save to file
-            with open(settings_path, "w") as jw:
-                json.dump(self.settings, jw, indent=4)
+            with open(settings_path, "w") as f:
+                json.dump(self.settings, f, indent=4)
             
             # Apply immediately
             customtkinter.set_appearance_mode(next_theme)
@@ -272,8 +270,8 @@ try:
                     self.last_modified = current_modified
                     
                     # Reload settings
-                    with open(settings_path, "r") as jr:
-                        new_settings = json.load(jr)
+                    with open(settings_path, "r") as f:
+                        new_settings = json.load(f)
                     
                     # Check if theme changed
                     if new_settings.get("theme") != self.settings.get("theme"):
@@ -288,10 +286,6 @@ try:
             # Check again in 500ms
             self.after(500, self.check_settings_update)
 
-
-
-
-            
     
     if __name__ == "__main__":
         app = App()
@@ -301,3 +295,5 @@ except KeyboardInterrupt:
     print("\nYou closed the app")
 except Exception as e:
     print(f"An error has occurred: {e}")
+    import traceback
+    traceback.print_exc()
