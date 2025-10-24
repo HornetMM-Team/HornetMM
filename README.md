@@ -9,3 +9,5 @@ Goals In Project:
 - [ ] Add Thunderstore support for Silksong
 - [ ] Add 1-click support
 - [ ] Add To flatpak for Steam Deck
+- [ ] Add Proper MonoMod detection
+- [x] Make settings.json work 
