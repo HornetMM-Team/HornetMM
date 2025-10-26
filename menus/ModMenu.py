@@ -85,13 +85,119 @@ def verify_hollow_knight_directory(directory):
     return False
 
 def detect_installed_mods(directory):
-    """Detect which mod loaders are already installed."""
-    bepinex = os.path.exists(os.path.join(directory, "BepInEx"))
-    monomod = os.path.exists(os.path.join(directory, "Mods")) or \
-              os.path.exists(os.path.join(directory, "hollow_knight_Data", "Managed", "Assembly-CSharp.mm.dll"))
-    hkapi = os.path.exists(os.path.join(directory, "hollow_knight_Data", "Managed", "Assembly-CSharp.Modding.dll"))
+    """Detect which mod loaders are already installed with proper checks."""
     
-    return bepinex, monomod, hkapi
+    # BepInEx detection - check for core files
+    bepinex_installed = False
+    bepinex_path = os.path.join(directory, "BepInEx")
+    if os.path.exists(bepinex_path):
+        # Check for core BepInEx files
+        core_dll = os.path.join(bepinex_path, "core", "BepInEx.dll")
+        config_file = os.path.join(bepinex_path, "config", "BepInEx.cfg")
+        plugins_folder = os.path.join(bepinex_path, "plugins")
+        
+        if os.path.exists(core_dll) or os.path.exists(config_file) or os.path.exists(plugins_folder):
+            bepinex_installed = True
+    
+    # MonoMod detection - check for MonoMod runtime files
+    monomod_installed = False
+    managed_path = os.path.join(directory, "hollow_knight_Data", "Managed")
+    
+    # Also check alternative paths
+    if not os.path.exists(managed_path):
+        managed_path = os.path.join(directory, "Hollow Knight_Data", "Managed")
+    
+    if os.path.exists(managed_path):
+        # Check for MonoMod.RuntimeDetour and other MonoMod DLLs
+        monomod_files = [
+            "MonoMod.RuntimeDetour.dll",
+            "MonoMod.Utils.dll",
+            "MonoMod.exe",
+            "MMHOOK_Assembly-CSharp.dll",
+            "MonoMod.RuntimeDetour.HookGen.dll"
+        ]
+        
+        for dll in monomod_files:
+            if os.path.exists(os.path.join(managed_path, dll)):
+                monomod_installed = True
+                break
+    
+    # Also check Mods folder (older MonoMod installations)
+    if not monomod_installed:
+        mods_folder = os.path.join(directory, "Mods")
+        if os.path.exists(mods_folder) and os.listdir(mods_folder):
+            monomod_installed = True
+    
+    # Hollow Knight Modding API detection
+    hkapi_installed = False
+    
+    if os.path.exists(managed_path):
+        # Check for main API DLL in Managed folder
+        api_dll = os.path.join(managed_path, "Assembly-CSharp.Modding.dll")
+        
+        if os.path.exists(api_dll):
+            hkapi_installed = True
+    
+    # Check for Modding API in BepInEx plugins
+    if not hkapi_installed and os.path.exists(bepinex_path):
+        bepinex_api_locations = [
+            os.path.join(bepinex_path, "plugins", "Modding API.dll"),
+            os.path.join(bepinex_path, "plugins", "MAPI"),
+            os.path.join(bepinex_path, "Mods")  # Some installations use this
+        ]
+        
+        for location in bepinex_api_locations:
+            if os.path.exists(location):
+                hkapi_installed = True
+                break
+    
+    return bepinex_installed, monomod_installed, hkapi_installed
+
+def get_mod_details(directory):
+    """Get detailed information about installed mods."""
+    details = []
+    
+    bepinex_path = os.path.join(directory, "BepInEx")
+    if os.path.exists(bepinex_path):
+        # Check BepInEx core
+        core_dll = os.path.join(bepinex_path, "core", "BepInEx.dll")
+        if os.path.exists(core_dll):
+            details.append("  • BepInEx core found")
+        
+        # Check plugins folder
+        plugins = os.path.join(bepinex_path, "plugins")
+        if os.path.exists(plugins):
+            plugin_count = len([f for f in os.listdir(plugins) if f.endswith('.dll')])
+            if plugin_count > 0:
+                details.append(f"  • {plugin_count} plugin(s) in BepInEx/plugins")
+    
+    # Check MonoMod files
+    managed_paths = [
+        os.path.join(directory, "hollow_knight_Data", "Managed"),
+        os.path.join(directory, "Hollow Knight_Data", "Managed")
+    ]
+    
+    for managed_path in managed_paths:
+        if os.path.exists(managed_path):
+            monomod_files = [
+                "MonoMod.RuntimeDetour.dll",
+                "MonoMod.Utils.dll",
+                "MMHOOK_Assembly-CSharp.dll"
+            ]
+            found_files = [f for f in monomod_files if os.path.exists(os.path.join(managed_path, f))]
+            if found_files:
+                details.append(f"  • MonoMod files: {', '.join(found_files)}")
+            break
+    
+    # Check for Modding API
+    for managed_path in managed_paths:
+        if os.path.exists(managed_path):
+            api_dll = os.path.join(managed_path, "Assembly-CSharp.Modding.dll")
+            if os.path.exists(api_dll):
+                details.append("  • Modding API DLL found in Managed folder")
+            break
+    
+    return details if details else ["  • No additional details available"]
 
 def download_and_extract(url, install_dir, progress_callback=None):
     """Download and extract ZIP file to the specified directory."""
@@ -120,7 +226,7 @@ class ModInstaller(customtkinter.CTkToplevel):
     def __init__(self, parent, install_path=None):
         super().__init__(parent)
         self.title("Hollow Knight Mod Installer")
-        self.geometry("600x500")
+        self.geometry("600x550")
         self.resizable(False, False)
         
         # Load path from settings.json if not provided
@@ -162,7 +268,7 @@ class ModInstaller(customtkinter.CTkToplevel):
         self.status_frame = customtkinter.CTkFrame(self)
         self.status_frame.pack(pady=10, padx=20, fill="both", expand=True)
         
-        self.status_text = customtkinter.CTkTextbox(self.status_frame, height=150)
+        self.status_text = customtkinter.CTkTextbox(self.status_frame, height=200)
         self.status_text.pack(pady=10, padx=10, fill="both", expand=True)
         
         # Progress bar
@@ -181,13 +287,26 @@ class ModInstaller(customtkinter.CTkToplevel):
 
         # If path exists, auto-detect mods
         if self.install_dir and verify_hollow_knight_directory(self.install_dir):
-            self.bepinex, self.monomod, self.hkapi = detect_installed_mods(self.install_dir)
-            self.log("=== Detection Results ===")
-            self.log(f"BepInEx: {'✅ Installed' if self.bepinex else '❌ Not found'}")
-            self.log(f"MonoMod: {'✅ Installed' if self.monomod else '❌ Not found'}")
-            self.log(f"HK API: {'✅ Installed' if self.hkapi else '❌ Not found'}")
-            self.log("")
-            self.install_button.configure(state="normal")
+            self.detect_and_display()
+
+    def detect_and_display(self):
+        """Detect installed mods and display detailed information."""
+        self.bepinex, self.monomod, self.hkapi = detect_installed_mods(self.install_dir)
+        
+        self.log("=== Detection Results ===")
+        self.log(f"BepInEx: {'✅ Installed' if self.bepinex else '❌ Not found'}")
+        self.log(f"MonoMod: {'✅ Installed' if self.monomod else '❌ Not found'}")
+        self.log(f"HK Modding API: {'✅ Installed' if self.hkapi else '❌ Not found'}")
+        
+        # Show detailed information
+        details = get_mod_details(self.install_dir)
+        if details:
+            self.log("\n=== Installation Details ===")
+            for detail in details:
+                self.log(detail)
+        
+        self.log("")
+        self.install_button.configure(state="normal")
 
     def log(self, message):
         self.status_text.insert("end", message + "\n")
@@ -211,13 +330,8 @@ class ModInstaller(customtkinter.CTkToplevel):
         self.dir_label.configure(text=f"Selected: {directory}")
         save_hollow_knight_path(directory)
         
-        self.bepinex, self.monomod, self.hkapi = detect_installed_mods(directory)
-        self.log("=== Detection Results ===")
-        self.log(f"BepInEx: {'✅ Installed' if self.bepinex else '❌ Not found'}")
-        self.log(f"MonoMod: {'✅ Installed' if self.monomod else '❌ Not found'}")
-        self.log(f"HK API: {'✅ Installed' if self.hkapi else '❌ Not found'}")
-        self.log("")
-        self.install_button.configure(state="normal")
+        self.status_text.delete("1.0", "end")
+        self.detect_and_display()
 
     def update_progress(self, value):
         self.progress.set(value)
@@ -258,46 +372,54 @@ class ModInstaller(customtkinter.CTkToplevel):
             else:
                 self.log("ℹ️ BepInEx already installed\n")
 
-            if self.bepinex and not self.monomod:
-                self.log("📦 Installing MonoMod...")
-                self.progress.set(0)
-                monomod_info = get_latest_release(MONOMOD_API_URL)
-                mono_url = None
-                for asset in monomod_info["assets"]:
-                    if asset["name"].endswith(".zip"):
-                        mono_url = asset["browser_download_url"]
-                        break
-                
-                if mono_url:
-                    download_and_extract(mono_url, self.install_dir, self.update_progress)
-                    self.monomod = True
-                    self.log("✅ MonoMod installed successfully!\n")
-                else:
-                    self.log("⚠️ Could not find MonoMod release\n")
-
             if not self.hkapi:
-                self.log("📦 Installing Hollow Knight API...")
+                self.log("📦 Installing Hollow Knight Modding API...")
                 self.progress.set(0)
                 hkapi_info = get_latest_release(HKAPI_URL)
+                
+                # Determine platform-specific release
+                system = platform.system().lower()
+                if system == "windows":
+                    target_name = "ModdingApiWin.zip"
+                elif system == "linux":
+                    target_name = "ModdingApiLinux.zip"
+                elif system == "darwin":
+                    target_name = "ModdingApiMac.zip"
+                else:
+                    self.log(f"⚠️ Unsupported platform: {system}\n")
+                    return
+                
                 hkapi_url = None
                 for asset in hkapi_info["assets"]:
-                    if asset["name"].endswith(".zip"):
+                    if asset["name"] == target_name:
                         hkapi_url = asset["browser_download_url"]
+                        self.log(f"Found: {asset['name']}")
                         break
                 
                 if hkapi_url:
+                    self.log("Downloading and installing...")
+                    # Extract directly to game directory
                     download_and_extract(hkapi_url, self.install_dir, self.update_progress)
                     self.hkapi = True
-                    self.log("✅ HK API installed successfully!\n")
+                    self.log("✅ HK Modding API installed successfully!\n")
                 else:
-                    self.log("⚠️ Could not find HK API release\n")
+                    self.log(f"⚠️ Could not find {target_name} in releases\n")
             else:
-                self.log("ℹ️ HK API already installed\n")
+                self.log("ℹ️ HK Modding API already installed\n")
+            
+            # Note about MonoMod
+            if not self.monomod:
+                self.log("\nℹ️ Note: MonoMod is included with the HK Modding API")
+                self.log("   and will be automatically detected after installation.\n")
 
             self.log("=" * 30)
             self.log("🎉 Installation complete!")
             self.log("You can now install mods to the BepInEx/plugins folder")
+            self.log("\nRe-scanning installation...")
             self.progress.set(1)
+            
+            # Re-detect to show updated status
+            self.detect_and_display()
             
         except Exception as e:
             self.log(f"\n❌ Error during installation: {str(e)}")
