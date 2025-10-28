@@ -12,7 +12,7 @@
 >Btw. since this uses customtkinter, if you find a cool theme, in the source place a theme .json inside of the themes folder, then add this to somewhere in the base.py, or other menus that you want to look like that ```customtkinter.set_default_color_theme("themes/<my_custom_theme>.json")``` replace "my_custom_theme" with the attual name of your json
 
 >[!WARNING]
->(This Only Apply's For Windows Users) DO NOT INSTALL PYTHON FOR MS STORE. it breaks everything do not install it from their if your using source
+>(This Only Apply's For Windows Users) DO NOT INSTALL PYTHON FROM MS STORE. it breaks everything do not install it from their if your using source
 
 
 
