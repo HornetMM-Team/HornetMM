@@ -33,7 +33,10 @@ Features:
 To install make sure you have <b>GIT</b> installed as it will be required in order to install all the source code, by default it installs "cloned" code inside of %userprofile% or your user folder. for linux ppl it might be in home, to install git (for windows) you will need to A: run ```setx %WINGET% C:\<yourusername>\AppData\Local\Microsoft\WindowsApps\winget.exe``` (do this if typing winget gives error) restart your terminal and run ```winget install git.git```, or B: go to (git's website)[git-scm.com] and download git. if your downloading GIT from the website. you will need to restart your computer to apply the PATH variables. Both Methods Do <font color="red">NOT</font> require admin. Make sure to run git --version to make sure its installed correctly. if you havent restarted yet and the command isnt reconized then restart, for the new value in PATH to take effect, now run ```git clone https://https://github.com/Sonic3Modder/HornetMM.git``` this will install all of the source code. now we have to install python. I devoloped this with python 3.13.7 so I do recommend installing that version, or the latest, to install run ```winget install python```(if you did the instructions, or if it just works) or install python from the (website)[https://github.com/Sonic3Modder/HornetMM/edit/main/README.md]. Now you want to go inside of the folder you cloned, inside of the root (base folder) of your user directory/folder in cmd/powershell, now type ```pip install -r requirements.txt``` this will install the requirements, after thats done run ```python base.py``` this will run the base. Now you have it working yay :D
 
 <h3>Installation (Source; Linux, Difficulty: Medium):</h3>
-To install you will need **Git** to do this you can run:
+To install you will need <b>Git</b> to do this you can run:
+
+> [!WARNING]  
+> SteamOS is ment for system stability making it hard to install AUR packages, Highly reccomended that you install the flatpak
 
 - Ubuntu/Debain/ZorinOS: ```sudo apt install git```
 - Fedora/Nobara: ```sudo dnf install git```
@@ -47,4 +50,7 @@ Make sure that git is installed correctly by running ```git --version```. Now th
 - Arch/SteamOS/Manjaro: ```sudo pacman -S python``` (Make sure you run ```sudo pacman -Syu``` Before)
 - Gentoo: ```emerge --ask dev-lang/python:3.13```
 
-Now that we have **Python**, And **Git**
+Now that we have **Python**, And **Git**, Now we can Start the installation Process, firstly run ```git clone https://github.com/Sonic3Modder/HornetMM.git``` this will copy all of the source files into a folder inside of your user directory (/home/<yourusername>)
+now type ```cd HornetMM``` and run ```pip install -r install requirements.txt``` wait for the requirements to download. then run ```python base.py```. Now you have HornetMM working on linux.
+
+
