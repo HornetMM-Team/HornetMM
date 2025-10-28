@@ -41,8 +41,8 @@ Features:
 - you will need to restart your computer to apply the PATH variables.
 - Both Methods Do <font color="red">NOT</font> require admin.
 - Make sure to run ```git --version``` to make sure its installed correctly.
-- if you havent restarted yet and the command isnt reconized then restart,
-- for the new value in PATH to take effect, now run ```git clone https://https://github.com/Sonic3Modder/HornetMM.git```
+- if you havent restarted yet and the command isnt reconized then restart, this is because it takes a while to apply the new PATH value
+-  ```git clone https://https://github.com/Sonic3Modder/HornetMM.git```
 - this will copy all of the source code into a folder called "HornetMM".
 - now we have to install python.
 - I devoloped this with python 3.13.7 so I do recommend installing that version, or the latest,
