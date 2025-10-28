@@ -60,12 +60,14 @@ now type ```cd HornetMM``` and run ```pip install -r install requirements.txt```
 
 <h3>Building(Windows; Difficulty: Easy</h3>
 🚧 W.I.P 🚧
+‎ 
+‎ 
+‎ 
 
 
 
-
-Demo:
-<img width="702" height="858" alt="image" src="https://github.com/user-attachments/assets/d8d18a46-366d-4152-8705-5a1545bdecb4" />
+<h2>Demo:</h2>
+- <img width="702" height="858" alt="image" src="https://github.com/user-attachments/assets/d8d18a46-366d-4152-8705-5a1545bdecb4" />
 
 
 
