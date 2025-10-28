@@ -89,7 +89,9 @@ now type ```cd HornetMM``` and run ```pip install -r install requirements.txt```
 
 ‎ 
 ‎ 
-‎ 
+‎# Current Issues:
+> [!INFORMATION]
+> All Current Issues will be in the pinned disscuctions form
 
 
 
