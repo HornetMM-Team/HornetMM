@@ -14,7 +14,7 @@
 >[!WARNING]
 >(This Only Apply's For Windows Users) DO NOT INSTALL PYTHON FROM MICROSOFT STORE. it breaks everything do not install it from there. This is for if your using source to run
 
->[!INFORMATION]
+>[!IMPORTANT]
 >I reccommend running ```pip install uv``` beacuase UV was made in Rust. so its alot faster. only bad thing is you have to run ```uv pip install <package_name> --system``` to install smth. if you forgot to include --system it wont install, since by default it assumes that you are using a python venv
 
 
