@@ -90,7 +90,7 @@ now type ```cd HornetMM``` and run ```pip install -r install requirements.txt```
 ‎ 
 
 ‎ 
-‎#Current Issues:
+‎<h1>Current Issues:</h1>
 > [!INFORMATION]
 > All Current Issues will be in the pinned disscuctions form
 
