@@ -77,13 +77,14 @@ now type ```cd HornetMM``` and run ```pip install -r install requirements.txt```
 🚧 W.I.P 🚧
 
 >[!NOTE]
-> I dont know when Ill make it work
+> I dont know when Ill make it work, if you have a idea to compile for python, post it in disscustions
 
 <h3>Building(Windows; Difficulty: Easy)</h3>
 🚧 W.I.P 🚧
 
 >[!NOTE]
-> I dont know when Ill make it work
+> I dont know when Ill make it work, if you have a idea to compile for python, post it in disscustions
+
 ‎ 
 ‎ 
 ‎ 
