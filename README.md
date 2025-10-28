@@ -31,7 +31,7 @@ Features:
 - Installing BepInEx
 - Mod Management
 - Settings
-- System Theme Support
+- System Theme Support (Linux, MacOS, Windows)
 
 <h3>Installation (Source; Windows, Difficulty: Easy):</h3>
 
