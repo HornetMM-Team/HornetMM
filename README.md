@@ -35,16 +35,16 @@ To install make sure you have <b>GIT</b> installed as it will be required in ord
 <h3>Installation (Source; Linux, Difficulty: Medium):</h3>
 To install you will need __**GIT**__ to do this you can run:
 
-Ubuntu/Debain/ZorinOS: ```sudo apt install git```
-Fedora/Nobara: ```sudo dnf install git```
-Arch/SteamOS/Manjaro: ```sudo pacman -S git``` (Make sure you run ```sudo pacman -Syu``` Before)
-Gentoo: ```emerge --ask --verbose dev-vcs/git```
+- Ubuntu/Debain/ZorinOS: ```sudo apt install git```
+- Fedora/Nobara: ```sudo dnf install git```
+- Arch/SteamOS/Manjaro: ```sudo pacman -S git``` (Make sure you run ```sudo pacman -Syu``` Before)
+- Gentoo: ```emerge --ask --verbose dev-vcs/git```
 
 Make sure that git is installed correctly by running ```git --version```. Now that git is working, we need __**Python**__, you can install python by running:
 
-Ubuntu/Debain/ZorinOS: ```sudo apt install python```
-Fedora/Nobara: ```sudo dnf install python```
-Arch/SteamOS/Manjaro: ```sudo pacman -S python``` (Make sure you run ```sudo pacman -Syu``` Before)
-Gentoo: ```emerge --ask dev-lang/python:3.13```
+- Ubuntu/Debain/ZorinOS: ```sudo apt install python```
+- Fedora/Nobara: ```sudo dnf install python```
+- Arch/SteamOS/Manjaro: ```sudo pacman -S python``` (Make sure you run ```sudo pacman -Syu``` Before)
+- Gentoo: ```emerge --ask dev-lang/python:3.13```
 
 
