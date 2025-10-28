@@ -4,8 +4,7 @@
 
 <h2>Demo:</h2>
 - <img width="702" height="858" alt="image" src="https://github.com/user-attachments/assets/d8d18a46-366d-4152-8705-5a1545bdecb4" />
-
-
+(I used windows for this demo)
 
 
 >[!TIP]
