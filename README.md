@@ -38,7 +38,7 @@ Features:
 - To install make sure you have <b>GIT</b> installed as it will be required in order to install all the source code, by default it installs "cloned" code inside of %userprofile% or your user folder.
 - for linux ppl it might be in home,
 - to install git (for windows) you will need to A: run ```setx %WINGET% C:\<yourusername>\AppData\Local\Microsoft\WindowsApps\winget.exe``` (do this if typing winget gives error) restart your terminal and run ```winget install git.git```,
-- or B: go to (git's website)[git-scm.com] and download git. if your downloading GIT from the website.
+- or B: go to [git's website](git-scm.com) and download git. if your downloading GIT from the website.
 - you will need to restart your computer to apply the PATH variables.
 - Both Methods Do <font color="red">NOT</font> require admin.
 - Make sure to run git --version to make sure its installed correctly.
