@@ -1,4 +1,4 @@
-<h1>### A Cross Platform Mod Manager For Hollow Knight/Silksong Made in Py</h1>
+<h1> A Cross Platform Mod Manager For Hollow Knight/Silksong Made in Py</h1>
 <b> You dont need any sort of python in order to run this if your using releases tab/actions. Recommended to run with source </b>
 
 
