@@ -8,8 +8,8 @@ Demo:
 
 <img width="702" height="858" alt="image" src="https://github.com/user-attachments/assets/d8d18a46-366d-4152-8705-5a1545bdecb4" />
 
-
-
+> [!TIP}
+>Btw. since this uses customtkinter, if you find a cool theme, in the source make
 
 
 
