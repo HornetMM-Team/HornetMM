@@ -62,7 +62,7 @@ now type ```cd HornetMM``` and run ```pip install -r install requirements.txt```
 >[!NOTE]
 > I dont know when Ill make it work
 
-<h3>Building(Windows; Difficulty: Easy</h3>
+<h3>Building(Windows; Difficulty: Easy)</h3>
 🚧 W.I.P 🚧
 
 >[!NOTE]
