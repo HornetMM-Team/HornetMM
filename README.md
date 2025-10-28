@@ -45,7 +45,7 @@ Features:
 - this will copy all of the source code into a folder called "HornetMM".
 - now we have to install python.
 - I devoloped this with python 3.13.7 so I do recommend installing that version, or the latest,
-- to install run ```winget install python```(if you did the instructions, or if it just works) or install python from the [website](python.org).
+- to install run ```winget install python```(if you did the instructions, or if it just works) or install python from the [website](https://python.org).
 - Now you want to go inside of the folder you cloned, inside of the root (base folder) of your user directory/folder in cmd/powershell, now type ```pip install -r requirements.txt``` this will install the requirements,
 - after thats done run ```python base.py``` this will run the base. Now you have it working yay :D
 
