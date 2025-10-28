@@ -35,7 +35,7 @@ To install make sure you have <b>GIT</b> installed as it will be required in ord
 <h3>Installation (Source; Linux, Difficulty: Medium):</h3>
 
 > [!WARNING]  
-> SteamOS is ment for system stability making it hard to install AUR packages, Highly reccomended that you install the flatpak, You have been warned. And even if you do, SteamOS wipes everything in rootfs on system update. YOU HAVE BEEN WARNED‼️‼️
+> SteamOS is ment for system stability making it hard to install AUR packages, Highly reccomended that you install the flatpak, And even if you do, SteamOS wipes everything in rootfs on system update. YOU HAVE BEEN WARNED‼️‼️
 
 To install you will need <b>Git</b> to do this you can run:
 
