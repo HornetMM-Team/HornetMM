@@ -54,4 +54,14 @@ Make sure that git is installed correctly by running ```git --version```. Now th
 Now that we have **Python**, And **Git**, Now we can Start the installation Process, firstly run ```git clone https://github.com/Sonic3Modder/HornetMM.git``` this will copy all of the source files into a folder inside of your user directory (/home/<yourusername>)
 now type ```cd HornetMM``` and run ```pip install -r install requirements.txt``` wait for the requirements to download. then run ```python base.py```. Now you have HornetMM working on linux.
 
+<h3>Building(Linux; Difficulty: Medium):</h3>
+🚧 W.I.P 🚧
+
+<h3>Building(Windows; Difficulty: Easy</h3>
+🚧 W.I.P 🚧
+
+
+
+
+
 
