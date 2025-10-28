@@ -53,7 +53,7 @@ Features:
 
 <h3>Installation (Source; Linux, Difficulty: Medium):</h3>
 
-> [!WARNING]  
+> [!CAUTION]  
 > SteamOS is ment for system stability making it hard to install AUR packages, Highly reccomended that you install the flatpak, And even if you do, SteamOS wipes everything in rootfs on system update. YOU HAVE BEEN WARNED‼️‼️
 
 To install you will need <b>Git</b> to do this you can run:
