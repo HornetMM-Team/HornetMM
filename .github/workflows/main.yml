@@ -1,42 +1,67 @@
-name: Build Windows Executable
+name: Build HornetMM (cx_Freeze)
 
 on:
   push:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+  workflow_dispatch:  # allows manual runs
 
 jobs:
   build:
-    runs-on: windows-latest
+    name: Build on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
 
     steps:
-      - name: Check out repository
+      # 1️⃣ Checkout repo
+      - name: Checkout repository
         uses: actions/checkout@v4
 
+      # 2️⃣ Set up Python (you can adjust version if needed)
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.10"
+          python-version: "3.12"
 
+      # 3️⃣ Install dependencies
       - name: Install dependencies
         run: |
-          pip install nuitka pillow customtkinter
+          python -m pip install --upgrade pip
+          pip install cx_Freeze
 
-      - name: Pre-download Dependency Walker
-        run: |
-          mkdir -p "$env:LOCALAPPDATA\Nuitka\Nuitka\Cache\downloads\depends\x86_64"
-          Invoke-WebRequest https://dependencywalker.com/depends22_x64.zip -OutFile depends.zip
-          Expand-Archive depends.zip -DestinationPath "$env:LOCALAPPDATA\Nuitka\Nuitka\Cache\downloads\depends\x86_64"
-          Remove-Item depends.zip
+      # 4️⃣ Build the executable
+      - name: Build with cx_Freeze
+        run: python setup.py build
 
-      - name: Build executable
+     # 5️⃣ Rename build output for clarity (Windows)
+      - name: Rename output folder (Windows)
+        if: runner.os == 'Windows'
         run: |
-          python -m nuitka base.py `
-            --onefile `
-            --windows-console-mode=disable `
-            --windows-icon-from-ico=icon.ico `
-            --enable-plugin=tk-inter `
-            --include-data-dir=images=images `
-            --include-data-dir=menus=menus `
-            --output-dir=build
+          move build HornetMM_Windows
+        shell: cmd
+
+      # 5️⃣ Rename build output for clarity (macOS)
+      - name: Rename output folder (macOS)
+        if: runner.os == 'macOS'
+        run: |
+          mv build HornetMM_macOS
+
+      # 5️⃣ Rename build output for clarity (Linux)
+      - name: Rename output folder (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          mv build HornetMM_Linux
+
+      # 6️⃣ Upload built executables as artifacts
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: HornetMM_${{ runner.os }}
+          path: |
+            HornetMM_Windows/**
+            HornetMM_macOS/**
+            HornetMM_Linux/**
+          if-no-files-found: warn
