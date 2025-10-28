@@ -36,16 +36,24 @@ jobs:
       - name: Build with cx_Freeze
         run: python setup.py build
 
-      # 5️⃣ Rename build output for clarity
-      - name: Rename output folder
+     # 5️⃣ Rename build output for clarity (Windows)
+      - name: Rename output folder (Windows)
+        if: runner.os == 'Windows'
         run: |
-          if [ "${{ runner.os }}" == "Windows" ]; then
-            mv build "HornetMM_Windows"
-          elif [ "${{ runner.os }}" == "macOS" ]; then
-            mv build "HornetMM_macOS"
-          else
-            mv build "HornetMM_Linux"
-          fi
+          move build HornetMM_Windows
+        shell: cmd
+
+      # 5️⃣ Rename build output for clarity (macOS)
+      - name: Rename output folder (macOS)
+        if: runner.os == 'macOS'
+        run: |
+          mv build HornetMM_macOS
+
+      # 5️⃣ Rename build output for clarity (Linux)
+      - name: Rename output folder (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          mv build HornetMM_Linux
 
       # 6️⃣ Upload built executables as artifacts
       - name: Upload artifacts
