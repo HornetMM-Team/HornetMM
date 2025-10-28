@@ -40,7 +40,7 @@ Features:
 - or go to [git's website](git-scm.com) and download git. if your downloading GIT from the website.
 - you will need to restart your computer to apply the PATH variables.
 - Both Methods Do <font color="red">NOT</font> require admin.
-- Make sure to run git --version to make sure its installed correctly.
+- Make sure to run ```git --version``` to make sure its installed correctly.
 - if you havent restarted yet and the command isnt reconized then restart,
 - for the new value in PATH to take effect, now run ```git clone https://https://github.com/Sonic3Modder/HornetMM.git```
 - this will copy all of the source code into a folder called "HornetMM".
