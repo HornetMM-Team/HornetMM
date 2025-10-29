@@ -95,7 +95,8 @@ now type ```cd HornetMM``` and run ```pip install -r install requirements.txt```
 > All Current Issues will be in the pinned disscuctions form
 
 
-
+## Star History
+[![Star History Chart](https://api.star-history.com/svg?repos=HornetMM-Team/HornetMM&type=date&legend=top-left)](https://www.star-history.com/#HornetMM-Team/HornetMM&type=date&legend=top-left)
 
 
 
