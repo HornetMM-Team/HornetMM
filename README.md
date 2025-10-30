@@ -1,3 +1,4 @@
+![Test](https://github.com/HornetMM-Team/HornetMM/actions/workflows/tests.yml/badge.svg)
 
 
 # A Cross Platform Mod Manager For Hollow Knight/Silksong Made in Py
