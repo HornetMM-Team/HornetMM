@@ -1,4 +1,4 @@
-[![Anurag's GitHub stats](https://github-readme-stats.vercel.app/api?username=anuraghazra)](https://github.com/anuraghazra/github-readme-stats)
+
 
 # A Cross Platform Mod Manager For Hollow Knight/Silksong Made in Py
 <b> You dont need any sort of python in order to run this if your using releases tab/actions. Recommended to run with source </b>
