@@ -110,13 +110,11 @@ def detect_installed_mods(directory):
         if os.path.exists(core_dll) or os.path.exists(config_file) or os.path.exists(plugins_folder):
             bepinex_installed = True
     
-    # MonoMod detection - check BepInEx/monomod folder first
+    # MonoMod detection - check both BepInEx/monomod folder AND Managed folder
     monomod_installed = False
     
-    # Check BepInEx/monomod folder (primary location for HK)
+    # Check BepInEx/monomod folder (where patches go)
     monomod_folder = os.path.join(directory, "BepInEx", "monomod")
-    print(f"DEBUG: Checking MonoMod folder: {monomod_folder}")
-    print(f"DEBUG: Exists: {os.path.exists(monomod_folder)}")
     if os.path.exists(monomod_folder):
         monomod_installed = True
     
@@ -128,34 +126,22 @@ def detect_installed_mods(directory):
         ]
         
         for managed_path in managed_paths:
-            print(f"DEBUG: Checking Managed path: {managed_path}")
-            print(f"DEBUG: Exists: {os.path.exists(managed_path)}")
-            
             if os.path.exists(managed_path):
                 # Check for MonoMod.RuntimeDetour and other MonoMod DLLs
                 monomod_files = [
                     "MonoMod.RuntimeDetour.dll",
                     "MonoMod.Utils.dll",
-                    "MonoMod.exe",
-                    "MMHOOK_Assembly-CSharp.dll",
-                    "MonoMod.RuntimeDetour.HookGen.dll"
+                    "MMHOOK_Assembly-CSharp.dll"
                 ]
                 
                 for dll in monomod_files:
                     dll_path = os.path.join(managed_path, dll)
                     if os.path.exists(dll_path):
-                        print(f"DEBUG: Found MonoMod file: {dll}")
                         monomod_installed = True
                         break
                 
                 if monomod_installed:
                     break
-    
-    # Also check Mods folder (older MonoMod installations)
-    if not monomod_installed:
-        mods_folder = os.path.join(directory, "Mods")
-        if os.path.exists(mods_folder) and os.listdir(mods_folder):
-            monomod_installed = True
     
     # Hollow Knight Modding API detection
     hkapi_installed = False
@@ -167,21 +153,17 @@ def detect_installed_mods(directory):
     ]
     
     for managed_path in managed_paths:
-        print(f"DEBUG: Checking API in Managed path: {managed_path}")
         if os.path.exists(managed_path):
             # Check for modded Assembly-CSharp.dll (has .xml file as indicator)
             assembly_xml = os.path.join(managed_path, "Assembly-CSharp.xml")
             mmhook = os.path.join(managed_path, "MMHOOK_Assembly-CSharp.dll")
-            
-            print(f"DEBUG: Checking for Assembly-CSharp.xml: {os.path.exists(assembly_xml)}")
-            print(f"DEBUG: Checking for MMHOOK_Assembly-CSharp.dll: {os.path.exists(mmhook)}")
             
             # If either the XML or MMHOOK file exists, API is installed
             if os.path.exists(assembly_xml) or os.path.exists(mmhook):
                 hkapi_installed = True
                 break
     
-    # Check for Modding API in BepInEx plugins
+    # Check for Modding API in BepInEx plugins (alternative location)
     if not hkapi_installed and os.path.exists(bepinex_path):
         bepinex_api_locations = [
             os.path.join(bepinex_path, "plugins", "Modding API.dll"),
@@ -190,7 +172,6 @@ def detect_installed_mods(directory):
         ]
         
         for location in bepinex_api_locations:
-            print(f"DEBUG: Checking BepInEx location: {location}")
             if os.path.exists(location):
                 hkapi_installed = True
                 break
@@ -214,11 +195,6 @@ def get_mod_details(directory):
             plugin_count = len([f for f in os.listdir(plugins) if f.endswith('.dll')])
             if plugin_count > 0:
                 details.append(f"  • {plugin_count} plugin(s) in BepInEx/plugins")
-        
-        # Check MonoMod folder
-        monomod_folder = os.path.join(bepinex_path, "monomod")
-        if os.path.exists(monomod_folder):
-            details.append("  • MonoMod folder found in BepInEx/monomod")
     
     # Check MonoMod files in Managed
     managed_paths = [
@@ -236,14 +212,11 @@ def get_mod_details(directory):
             found_files = [f for f in monomod_files if os.path.exists(os.path.join(managed_path, f))]
             if found_files:
                 details.append(f"  • MonoMod files in Managed: {', '.join(found_files)}")
-            break
-    
-    # Check for Modding API
-    for managed_path in managed_paths:
-        if os.path.exists(managed_path):
-            api_dll = os.path.join(managed_path, "Assembly-CSharp.Modding.dll")
-            if os.path.exists(api_dll):
-                details.append("  • Modding API DLL found in Managed folder")
+            
+            # Check for Modding API
+            api_xml = os.path.join(managed_path, "Assembly-CSharp.xml")
+            if os.path.exists(api_xml):
+                details.append("  • Modding API installed (patched Assembly-CSharp)")
             break
     
     return details if details else ["  • No additional details available"]
@@ -332,7 +305,25 @@ class ModInstaller(customtkinter.CTkToplevel):
             command=self.start_install,
             state="disabled"
         )
-        self.install_button.pack(pady=20)
+        self.install_button.pack(pady=10)
+        
+
+        def do_stuff(parent):
+            self.withdraw()
+            ModManagement.ModManager(parent)
+
+
+        import ModManagement
+        # Open ModManager button (only show if everything is installed)
+        self.modmanager_button = customtkinter.CTkButton(
+            self,
+            text="Open Mod Manager",
+            command=lambda: do_stuff(parent),
+            state="disabled"
+        )
+        self.modmanager_button.pack(pady=10)
+
+       
 
         # If path exists, auto-detect mods
         if self.install_dir and verify_hollow_knight_directory(self.install_dir):
@@ -356,6 +347,13 @@ class ModInstaller(customtkinter.CTkToplevel):
         
         self.log("")
         self.install_button.configure(state="normal")
+        
+        # Enable ModManager button if everything is installed
+        if self.bepinex and self.monomod and self.hkapi:
+            self.modmanager_button.configure(state="normal")
+            self.log("✅ All components installed! You can open Mod Manager.")
+        else:
+            self.modmanager_button.configure(state="disabled")
 
     def log(self, message):
         self.status_text.insert("end", message + "\n")
@@ -454,30 +452,46 @@ class ModInstaller(customtkinter.CTkToplevel):
                         download_and_extract(hkapi_url, temp_dir, self.update_progress)
                         
                         # Find the Managed folder
-                        managed_path = os.path.join(self.install_dir, "hollow_knight_Data", "Managed")
+                        managed_path = os.path.join(self.install_dir, "hollow_knight_Data", "Managed")  # type: ignore
                         if not os.path.exists(managed_path):
-                            managed_path = os.path.join(self.install_dir, "Hollow Knight_Data", "Managed")
+                            managed_path = os.path.join(self.install_dir, "Hollow Knight_Data", "Managed")  # type: ignore
                         
-                        if not os.path.exists(managed_path):
+                        if not os.path.exists(managed_path):  # type: ignore
                             self.log("❌ Error: Could not find hollow_knight_Data/Managed folder")
                             return
                         
-                        self.log(f"Installing to: {managed_path}")
+                        self.log(f"Installing to: {managed_path}\n")
                         
-                        # Copy all DLL and XML files to Managed folder
+                        # First, delete old files from root if they exist
+                        old_files = ['Assembly-CSharp.dll', 'MonoMod.RuntimeDetour.dll', 'MonoMod.Utils.dll', 
+                                     'MMHOOK_Assembly-CSharp.dll', 'MMHOOK_PlayMaker.dll', 'Mono.Cecil.dll']
+                        for old_file in old_files:
+                            old_path = os.path.join(self.install_dir, old_file)  # type: ignore
+                            if os.path.exists(old_path):  # type: ignore
+                                os.remove(old_path)  # type: ignore
+                                self.log(f"  🗑️ Removed old file from root: {old_file}")
+                        
+                        # Copy all files to Managed folder
                         copied_count = 0
                         for item in os.listdir(temp_dir):
                             src = os.path.join(temp_dir, item)
+                            dst = os.path.join(managed_path, item)  # type: ignore
                             
-                            # All files go to Managed folder
-                            dst = os.path.join(managed_path, item)
+                            self.log(f"  Copying {item}...")
+                            self.log(f"    From: {src}")
+                            self.log(f"    To: {dst}")
                             
                             if os.path.isfile(src):
                                 shutil.copy2(src, dst)
-                                self.log(f"  ✓ Copied: {item}")
+                                self.log(f"  ✓ {item}")
                                 copied_count += 1
                         
-                        self.log(f"\n✓ Installed {copied_count} files to Managed folder")
+                        self.log(f"\n✓ Installed {copied_count} files")
+                        
+                        # Create BepInEx/monomod folder for patches
+                        monomod_folder = os.path.join(self.install_dir, "BepInEx", "monomod")  # type: ignore
+                        os.makedirs(monomod_folder, exist_ok=True)  # type: ignore
+                        self.log("\n✓ Created BepInEx/monomod folder for MonoMod patches")
                     
                     self.hkapi = True
                     self.log("✅ HK Modding API installed successfully!\n")

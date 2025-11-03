@@ -77,30 +77,43 @@ class InstallDialog(customtkinter.CTkToplevel):
             self.install_button.configure(state="normal")
 
 if __name__ == "__main__":
-    # Register protocol handler (one-time setup)
-    handler = GameBananaHandler(install_path='./mods')
-    handler.register_protocol_handler()
-    
-    root = customtkinter.CTk()
-    
-    # Check if launched via 1-click install
-    if len(sys.argv) > 1 and sys.argv[1].startswith("hmm://"):  # Changed from gamebanana://
-        url = sys.argv[1]
+    try:
+        # Register protocol handler (one-time setup)
+        handler = GameBananaHandler(install_path='./mods')
+        handler.register_protocol_handler()
         
-        # Parse and get mod info
-        info = handler.parse_gamebanana_url(url)
-        success, mod_info = handler.get_mod_info(info['mod_id'])  # type: ignore
+        root = customtkinter.CTk()
         
-        if success:
-            # Show install dialog instead of main window
-            root.withdraw()  # Hide main window
-            dialog = InstallDialog(root, mod_info, url)  # type: ignore
-            dialog.mainloop()
+        # Check if launched via 1-click install
+        if len(sys.argv) > 1 and sys.argv[1].startswith("hmm://"):
+            url = sys.argv[1]
+            
+            # Parse and get mod info
+            info = handler.parse_gamebanana_url(url)
+            success, mod_info = handler.get_mod_info(info['mod_id'])  # type: ignore
+            
+            if success:
+                # Show install dialog instead of main window
+                root.withdraw()  # Hide main window
+                dialog = InstallDialog(root, mod_info, url)  # type: ignore
+                dialog.mainloop()
+            else:
+                print(f"Error fetching mod info: {mod_info}")
+                input("Press Enter to exit...")
+                root.destroy()
         else:
-            print(f"Error fetching mod info: {mod_info}")
-            root.destroy()
-    else:
-        # Normal launch - show mod manager
-        root.withdraw()  # hide main window if you only want ModManager
-        app = ModManager(root)
-        app.mainloop()
+            # Normal launch - show mod manager
+            root.withdraw()  # hide main window if you only want ModManager
+            app = ModManager(root)
+            app.mainloop()
+            
+    except Exception as e:
+        import traceback
+        print("="*60)
+        print("ERROR OCCURRED:")
+        print("="*60)
+        print(f"\n{e}\n")
+        print("Full traceback:")
+        traceback.print_exc()
+        print("="*60)
+        input("\nPress Enter to exit...")
