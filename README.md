@@ -2,7 +2,7 @@
 [![Lua](https://img.shields.io/badge/Lua-2C2D72?style=for-the-badge&logo=lua&logoColor=white)](https://lua.org)
 [![Json](https://img.shields.io/badge/json-5E5C5C?style=for-the-badge&logo=json&logoColor=white)](https://www.json.org/json-en.html)
 
-
+[![Build HornetMM (cx_Freeze)](https://github.com/HornetMM-Team/HornetMM/actions/workflows/main.yml/badge.svg)](https://github.com/HornetMM-Team/HornetMM/actions/workflows/main.yml)
 
 
 # A Cross Platform Mod Manager For Hollow Knight/Silksong Made in Py
