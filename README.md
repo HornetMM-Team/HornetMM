@@ -36,7 +36,8 @@ Goals In Project:
 - [ ] Add To flatpak for Steam Deck
 - [ ] Add Proper MonoMod detection
 - [x] Make settings.json work
-- [ ] Add Switch Support <img width="209" height="148" alt="image" src="https://github.com/user-attachments/assets/038ba7ec-70bd-46fd-b357-d3972bc2cc7d" />
+- [ ] Add Switch Support
+ <img width="209" height="148" alt="image" src="https://github.com/user-attachments/assets/038ba7ec-70bd-46fd-b357-d3972bc2cc7d" />
 
 
 
