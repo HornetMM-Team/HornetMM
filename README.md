@@ -93,8 +93,8 @@ now type ```cd HornetMM``` and run ```pip install -r install requirements.txt```
 
 ### Installation (Source; MacOS(Intel/Silicon), Difficulty: Medium)
 
->![CAUTION]
->This will require sudo access, if you are not sudo try installing Homebrew by source
+> ![CAUTION]
+> This will require sudo access, if you are not sudo try installing Homebrew by source
 
 - To Install, we are going to install a package manager called Homebrew, beacuase MacOS doesnt have a built-in package manager unlike regual Linux Distros (But if you count App Store as a package manager I guess macos does have a built-in package manager)
 - We Will need to install a package manager called homebrew in order to get the neccisary packages, since **git** doesnt have a PKG or a DMG to download  To install Homebrew we are going to run ```/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"```
