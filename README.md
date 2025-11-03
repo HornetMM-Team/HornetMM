@@ -93,7 +93,7 @@ now type ```cd HornetMM``` and run ```pip install -r install requirements.txt```
 
 ### Installation (Source; MacOS(Intel/Silicon), Difficulty: Medium)
 
-> ![CAUTION]
+> [!CAUTION]
 > This will require sudo access, if you are not sudo try installing Homebrew by source
 
 - To Install, we are going to install a package manager called Homebrew, beacuase MacOS doesnt have a built-in package manager unlike regual Linux Distros (But if you count App Store as a package manager I guess macos does have a built-in package manager)
@@ -107,7 +107,7 @@ now type ```cd HornetMM``` and run ```pip install -r install requirements.txt```
 
 
 ### Building(Linux/Windows/MacOS(Intel/Silicon); Difficulty: Medium):
-> ![CAUTION]
+> [!CAUTION]
 > Make SURE you followed the installation steps first
 
 To Build, you want to make sure that you did the installation steps THIS IS IMPORTANT. Now you want to run ```pip install cx_freeze``` or if you installed UV ```uv pip install cx_freeze --system``` or if your using a venv with UV ```uv pip install cx_freeze``` , wait for that to install then run ```python setup.py build```
