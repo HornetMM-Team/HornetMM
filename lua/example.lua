@@ -8,7 +8,7 @@ local Image = "Optional Image"
 -- Import the hmm module (provided by Python loader)
 local hmm = require("hmm")
 
-features = {"foo", "boo", "hollow knight"} --Optional Feature table
+local features = {"foo", "boo", "hollow knight"} --Optional Feature table
 
 function hmm.info()
     hmm.setname(NAME)
