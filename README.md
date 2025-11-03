@@ -1,3 +1,6 @@
+
+
+
 # A Cross Platform Mod Manager For Hollow Knight/Silksong Made in Py
 <b> You dont need any sort of python in order to run this if your using releases tab/actions. Recommended to run with source </b>
 
@@ -95,7 +98,8 @@ now type ```cd HornetMM``` and run ```pip install -r install requirements.txt```
 > All Current Issues will be in the pinned disscuctions form
 
 
-
+## Star History
+[![Star History Chart](https://api.star-history.com/svg?repos=HornetMM-Team/HornetMM&type=date&legend=top-left)](https://www.star-history.com/#HornetMM-Team/HornetMM&type=date&legend=top-left)
 
 
 

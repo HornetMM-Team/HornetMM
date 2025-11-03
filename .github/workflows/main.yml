@@ -20,42 +20,54 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 2️⃣ Set up Python (you can adjust version if needed)
+      # 2️⃣ Preinstall step (macOS-specific setup)
+      - name: Preinstall dependencies (macOS only)
+        if: runner.os == 'macOS'
+        run: |
+          echo "Running macOS preinstall..."
+          # Ensure Homebrew exists
+          which brew || /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+          # Update brew and install core build tools
+          brew update
+          brew install python3 || true
+          brew install llvm || true
+          brew install pkg-config || true
+          # Fix linker issues with cx_Logging by using LLVM clang
+          echo "export CC=$(brew --prefix llvm)/bin/clang" >> $GITHUB_ENV
+          echo "export CXX=$(brew --prefix llvm)/bin/clang++" >> $GITHUB_ENV
+
+      # 3️⃣ Set up Python
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
 
-      # 3️⃣ Install dependencies
+      # 4️⃣ Install dependencies
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install cx_Freeze
+          pip install -r requirements.txt || true
 
-      # 4️⃣ Build the executable
+      # 5️⃣ Build the executable
       - name: Build with cx_Freeze
         run: python setup.py build
 
-     # 5️⃣ Rename build output for clarity (Windows)
+      # 6️⃣ Rename build output folders for clarity
       - name: Rename output folder (Windows)
         if: runner.os == 'Windows'
-        run: |
-          move build HornetMM_Windows
+        run: move build HornetMM_Windows
         shell: cmd
 
-      # 5️⃣ Rename build output for clarity (macOS)
       - name: Rename output folder (macOS)
         if: runner.os == 'macOS'
-        run: |
-          mv build HornetMM_macOS
+        run: mv build HornetMM_macOS
 
-      # 5️⃣ Rename build output for clarity (Linux)
       - name: Rename output folder (Linux)
         if: runner.os == 'Linux'
-        run: |
-          mv build HornetMM_Linux
+        run: mv build HornetMM_Linux
 
-      # 6️⃣ Upload built executables as artifacts
+      # 7️⃣ Upload built executables as artifacts
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
