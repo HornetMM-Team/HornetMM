@@ -2,6 +2,7 @@
 [![Lua](https://img.shields.io/badge/Lua-2C2D72?style=for-the-badge&logo=lua&logoColor=white)](https://lua.org)
 [![Json](https://img.shields.io/badge/json-5E5C5C?style=for-the-badge&logo=json&logoColor=white)](https://www.json.org/json-en.html)
 [![Steam](https://img.shields.io/badge/Steam-000000?style=for-the-badge&logo=steam&logoColor=white)](https://store.steampowered.com)
+[![Discord](https://img.shields.io/badge/Discord-5865F2?style=for-the-badge&logo=discord&logoColor=white)](https://discord.com)
 
 [![GOG.com](https://img.shields.io/badge/GOG.com-86328A?logo=gogdotcom&logoColor=fff)](https://gog.com/en/)
 [![Build HornetMM (cx_Freeze)](https://github.com/HornetMM-Team/HornetMM/actions/workflows/main.yml/badge.svg)](https://github.com/HornetMM-Team/HornetMM/actions/workflows/main.yml)
@@ -35,7 +36,8 @@ Goals In Project:
 - [ ] Add To flatpak for Steam Deck
 - [ ] Add Proper MonoMod detection
 - [x] Make settings.json work
-- [ ] Add A optional cheat menu
+- [ ] Add Switch Support <img width="209" height="148" alt="image" src="https://github.com/user-attachments/assets/038ba7ec-70bd-46fd-b357-d3972bc2cc7d" />
+
 
 
 Features:
