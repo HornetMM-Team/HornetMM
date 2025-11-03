@@ -51,7 +51,7 @@ Features:
 - Settings
 - System Theme Support (Linux, MacOS, Windows)
 
-###Installation (Source; Windows, Difficulty: Easy):
+Installation (Source; Windows, Difficulty: Easy):
 
 - To install make sure you have **GIT** installed as it will be required in order to install all the source code, by default it installs "cloned" code inside of %userprofile% or your user folder,
 - to install git (for windows) you will need to either run ```setx %WINGET% C:\<yourusername>\AppData\Local\Microsoft\WindowsApps\winget.exe``` (do this if typing winget gives error) restart your terminal and run ```winget install git.git```,
@@ -68,7 +68,7 @@ Features:
 - Now you want to go inside of the folder you cloned, inside of the root (base folder) of your user directory/folder in cmd/powershell, now type ```pip install -r requirements.txt``` this will install the requirements,
 - after thats done run ```python base.py``` this will run the base. Now you have it working yay :D
 
-<h3>Installation (Source; Linux, Difficulty: Medium):
+### Installation (Source; Linux, Difficulty: Medium):
 
 > [!CAUTION]  
 > SteamOS is ment for system stability making it hard to install AUR packages, Highly reccomended that you install the flatpak, And even if you do, SteamOS wipes everything in rootfs on system update. YOU HAVE BEEN WARNED‼️‼️
