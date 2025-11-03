@@ -27,6 +27,8 @@
 >[!IMPORTANT]
 >I reccommend running ```pip install uv``` beacuase UV was made in Rust. so its alot faster. only bad thing is you have to run ```uv pip install <package_name> --system``` to install smth. if you forgot to include --system it wont install, since by default it assumes that you are using a python venv
 
+>[!CAUTION]
+> I may never add switch support, its just too hard, but hopefuly I can :D
 
 
 Goals In Project:
