@@ -1,6 +1,7 @@
 [![Python](https://img.shields.io/badge/Python-FFD43B?style=for-the-badge&logo=python&logoColor=blue)](https://python.org)
 [![Lua](https://img.shields.io/badge/Lua-2C2D72?style=for-the-badge&logo=lua&logoColor=white)](https://lua.org)
 [![Json](https://img.shields.io/badge/json-5E5C5C?style=for-the-badge&logo=json&logoColor=white)](https://www.json.org/json-en.html)
+[![GOG.com](https://img.shields.io/badge/GOG.com-86328A?logo=gogdotcom&logoColor=fff)](https://gog.com/en/)
 
 [![Build HornetMM (cx_Freeze)](https://github.com/HornetMM-Team/HornetMM/actions/workflows/main.yml/badge.svg)](https://github.com/HornetMM-Team/HornetMM/actions/workflows/main.yml)
 
