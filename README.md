@@ -9,10 +9,10 @@
 
 
 # A Cross Platform Mod Manager For Hollow Knight/Silksong Made in Py
-<b> You dont need any sort of python in order to run this if your using releases tab/actions. Recommended to run with source </b>
+**You dont need any sort of python in order to run this if your using releases tab/actions. Recommended to run with source**
 
 
-<h2>Demo:</h2>
+## Demo:
 - <img width="702" height="858" alt="image" src="https://github.com/user-attachments/assets/d8d18a46-366d-4152-8705-5a1545bdecb4" />
 
 (I used windows for this demo)
@@ -39,6 +39,7 @@ Goals In Project:
 - [ ] Add Proper MonoMod detection
 - [x] Make settings.json work
 - [ ] Add Switch Support
+- [ ] 
  <img width="209" height="148" alt="image" src="https://github.com/user-attachments/assets/038ba7ec-70bd-46fd-b357-d3972bc2cc7d" />
 
 
@@ -50,9 +51,9 @@ Features:
 - Settings
 - System Theme Support (Linux, MacOS, Windows)
 
-<h3>Installation (Source; Windows, Difficulty: Easy):</h3>
+###Installation (Source; Windows, Difficulty: Easy):
 
-- To install make sure you have <b>GIT</b> installed as it will be required in order to install all the source code, by default it installs "cloned" code inside of %userprofile% or your user folder,
+- To install make sure you have **GIT** installed as it will be required in order to install all the source code, by default it installs "cloned" code inside of %userprofile% or your user folder,
 - to install git (for windows) you will need to either run ```setx %WINGET% C:\<yourusername>\AppData\Local\Microsoft\WindowsApps\winget.exe``` (do this if typing winget gives error) restart your terminal and run ```winget install git.git```,
 - or go to [git's website](git-scm.com) and download git. if your downloading GIT from the website.
 - you will need to restart your computer to apply the PATH variables.
@@ -67,7 +68,7 @@ Features:
 - Now you want to go inside of the folder you cloned, inside of the root (base folder) of your user directory/folder in cmd/powershell, now type ```pip install -r requirements.txt``` this will install the requirements,
 - after thats done run ```python base.py``` this will run the base. Now you have it working yay :D
 
-<h3>Installation (Source; Linux, Difficulty: Medium):</h3>
+<h3>Installation (Source; Linux, Difficulty: Medium):
 
 > [!CAUTION]  
 > SteamOS is ment for system stability making it hard to install AUR packages, Highly reccomended that you install the flatpak, And even if you do, SteamOS wipes everything in rootfs on system update. YOU HAVE BEEN WARNED‼️‼️
