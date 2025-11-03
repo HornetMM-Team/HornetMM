@@ -5,21 +5,25 @@ local VER = "Your Current Version" -- Optional
 local APIVER = "Your HKMAPI Version" -- Required
 local Image = "Optional Image"
 
+-- Import the hmm module (provided by Python loader)
+local hmm = require("hmm")
 
-features = {"foo, "boo", "hollowknight"} --Optional Feature table
+features = {"foo", "boo", "hollow knight"} --Optional Feature table
 
- function hmm.info()
+function hmm.info()
     hmm.setname(NAME)
     hmm.setathour(ATH)
     hmm.setdescription(DESC)
-    hmm.setversion()
-  end
-  function hmm.extfeatures()
+    hmm.setversion(VER) -- Pass the version parameter
+end
+
+function hmm.extfeatures()
     -- Add Features from features with only specific values
-    hmm.addextfeaturevalue(feature = features[])
-    hmm.addextfeature(manualfeature=features)
-  end
-
-
-
-  
+    -- Loop through features and add each one
+    for i, feature in ipairs(features) do
+        hmm.addextfeaturevalue(feature)
+    end
+    
+    -- Or add all features at once
+    hmm.addextfeature(features)
+end
