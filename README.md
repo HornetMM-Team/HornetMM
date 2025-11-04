@@ -110,8 +110,9 @@ now type ```cd HornetMM``` and run ```pip install -r install requirements.txt```
 > [!CAUTION]
 > Make SURE you followed the installation steps first
 
-To Build, you want to make sure that you did the installation steps THIS IS IMPORTANT. Now you want to run ```pip install cx_freeze``` or if you installed UV ```uv pip install cx_freeze --system``` or if your using a venv with UV ```uv pip install cx_freeze``` , wait for that to install then run ```python setup.py build```
-It will build for your platform. once your done. just run the file based on your platform (.exe for windows, no file extention for linux/macos), Icons should be: .ico for windows, .icns for MacOS, .png for Linux
+- To Build, you want to make sure that you did the installation steps THIS IS IMPORTANT. Now you want to run ```pip install cx_freeze``` or if you installed UV ```uv pip install cx_freeze --system``` or if your using a venv with UV ```uv pip install cx_freeze```
+- wait for that to install then run ```python setup.py build```
+- It will build for your platform. once your done. just run the file based on your platform (.exe for windows, no file extention for linux/macos), Icons should be: .ico for windows, .icns for MacOS, .png for Linux
 
 ‎ 
 ‎<h1>Current Issues:</h1>
