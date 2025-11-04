@@ -59,7 +59,7 @@ setup(
         Executable(
             "base.py",
             base=base,
-            icon=icon_file if os.path.exists(icon_file) else None,
+            icon=icon_file if os.path.exists(icon_file) else None, #type:ignore
         )
     ],
 )
