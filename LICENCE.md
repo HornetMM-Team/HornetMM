@@ -59,4 +59,44 @@ Any use without such Permission constitutes an infringement of the Author’s ri
 ## 4. Attribution and Retention
 
 1. You must preserve all copyright, license, and attribution notices contained within the Software.  
-2. Any approved redistribution or derivative work must include a clear notice attributing the Software to its original author:  
+2. Any approved redistribution or derivative work must include a clear notice attributing the Software to its original author:
+3. You may not claim authorship, ownership, or creation of the original Software.
+
+---
+
+## 5. Warranty Disclaimer
+
+THE SOFTWARE IS PROVIDED “AS IS,” WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT.  
+IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF, OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+---
+
+## 6. Termination
+
+Your rights under this License automatically and immediately terminate if you fail to comply with any of its terms.  
+Upon termination, you must cease all use and distribution of the Software and destroy all copies in your possession.  
+
+The Author may revoke granted Permission at any time for any reason.
+
+---
+
+## 7. Governing Law
+
+This License shall be governed by and interpreted under the laws of the United States, without regard to its conflict-of-law provisions.  
+Legal disputes arising under this License shall be subject to the exclusive jurisdiction of the courts within the Author’s country of residence.
+
+---
+
+## 8. Versioning
+
+This is version 1.0 of the **Public Permission License (PPL)**.  
+Future versions may be released to clarify or extend terms. Adoption of later versions is at the discretion of the Author.
+
+---
+
+**End of Public Permission License v1.0**
+
+
+© 2025 Barrett. Used under the Public Permission License (PPL) v1.0.
+
+
