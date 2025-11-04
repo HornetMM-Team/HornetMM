@@ -1,11 +1,18 @@
+[![Python](https://img.shields.io/badge/Python-FFD43B?style=for-the-badge&logo=python&logoColor=blue)](https://python.org)
+[![Lua](https://img.shields.io/badge/Lua-2C2D72?style=for-the-badge&logo=lua&logoColor=white)](https://lua.org)
+[![Json](https://img.shields.io/badge/json-5E5C5C?style=for-the-badge&logo=json&logoColor=white)](https://www.json.org/json-en.html)
+[![Steam](https://img.shields.io/badge/Steam-000000?style=for-the-badge&logo=steam&logoColor=white)](https://store.steampowered.com/app/367520/Hollow_Knight/)
+[![Discord](https://img.shields.io/badge/Discord-5865F2?style=for-the-badge&logo=discord&logoColor=white)](https://discord.com/servers/hollow-knight-modding-879125729936298015)
 
+[![GOG.com](https://img.shields.io/badge/GOG.com-86328A?logo=gogdotcom&logoColor=fff)](https://www.gog.com/en/game/hollow_knight)
+[![Build HornetMM (cx_Freeze)](https://github.com/HornetMM-Team/HornetMM/actions/workflows/main.yml/badge.svg)](https://github.com/HornetMM-Team/HornetMM/actions/workflows/main.yml)
 
 
 # A Cross Platform Mod Manager For Hollow Knight/Silksong Made in Py
-<b> You dont need any sort of python in order to run this if your using releases tab/actions. Recommended to run with source </b>
+**You dont need any sort of python in order to run this if your using releases tab/actions. Recommended to run with source**
 
 
-<h2>Demo:</h2>
+## Demo:
 - <img width="702" height="858" alt="image" src="https://github.com/user-attachments/assets/d8d18a46-366d-4152-8705-5a1545bdecb4" />
 
 (I used windows for this demo)
@@ -20,6 +27,8 @@
 >[!IMPORTANT]
 >I reccommend running ```pip install uv``` beacuase UV was made in Rust. so its alot faster. only bad thing is you have to run ```uv pip install <package_name> --system``` to install smth. if you forgot to include --system it wont install, since by default it assumes that you are using a python venv
 
+>[!CAUTION]
+> I may never add switch support, its just too hard, but hopefuly I can :D
 
 
 Goals In Project:
@@ -29,7 +38,10 @@ Goals In Project:
 - [ ] Add To flatpak for Steam Deck
 - [ ] Add Proper MonoMod detection
 - [x] Make settings.json work
-- [ ] Add A optional cheat menu
+- [ ] Add Switch Support
+- [ ] 
+ <img width="209" height="148" alt="image" src="https://github.com/user-attachments/assets/038ba7ec-70bd-46fd-b357-d3972bc2cc7d" />
+
 
 
 Features:
@@ -39,9 +51,9 @@ Features:
 - Settings
 - System Theme Support (Linux, MacOS, Windows)
 
-<h3>Installation (Source; Windows, Difficulty: Easy):</h3>
+### Installation (Source; Windows, Difficulty: Easy):
 
-- To install make sure you have <b>GIT</b> installed as it will be required in order to install all the source code, by default it installs "cloned" code inside of %userprofile% or your user folder,
+- To install make sure you have **GIT** installed as it will be required in order to install all the source code, by default it installs "cloned" code inside of %userprofile% or your user folder,
 - to install git (for windows) you will need to either run ```setx %WINGET% C:\<yourusername>\AppData\Local\Microsoft\WindowsApps\winget.exe``` (do this if typing winget gives error) restart your terminal and run ```winget install git.git```,
 - or go to [git's website](git-scm.com) and download git. if your downloading GIT from the website.
 - you will need to restart your computer to apply the PATH variables.
@@ -56,12 +68,12 @@ Features:
 - Now you want to go inside of the folder you cloned, inside of the root (base folder) of your user directory/folder in cmd/powershell, now type ```pip install -r requirements.txt``` this will install the requirements,
 - after thats done run ```python base.py``` this will run the base. Now you have it working yay :D
 
-<h3>Installation (Source; Linux, Difficulty: Medium):</h3>
+### Installation (Source; Linux, Difficulty: Medium):
 
 > [!CAUTION]  
 > SteamOS is ment for system stability making it hard to install AUR packages, Highly reccomended that you install the flatpak, And even if you do, SteamOS wipes everything in rootfs on system update. YOU HAVE BEEN WARNED‼️‼️
 
-To install you will need <b>Git</b> to do this you can run:
+To install you will need **Git** to do this you can run:
 
 - Ubuntu/Debain/ZorinOS: ```sudo apt install git```
 - Fedora/Nobara: ```sudo dnf install git```
@@ -78,19 +90,28 @@ Make sure that git is installed correctly by running ```git --version```. Now th
 Now that we have **Python**, And **Git**, Now we can Start the installation Process, firstly run ```git clone https://github.com/Sonic3Modder/HornetMM.git``` this will copy all of the source files into a folder inside of your user directory (/home/<yourusername>)
 now type ```cd HornetMM``` and run ```pip install -r install requirements.txt``` wait for the requirements to download. then run ```python base.py```. Now you have HornetMM working on linux.
 
-<h3>Building(Linux; Difficulty: Medium):</h3>
-🚧 W.I.P 🚧
 
->[!NOTE]
-> I dont know when Ill make it work, if you have a idea to compile for python, post it in disscustions
+### Installation (Source; MacOS(Intel/Silicon), Difficulty: Medium)
 
-<h3>Building(Windows; Difficulty: Easy)</h3>
-🚧 W.I.P 🚧
+> [!CAUTION]
+> This will require sudo access, if you are not sudo try installing Homebrew by source
 
->[!NOTE]
-> I dont know when Ill make it work, if you have a idea to compile for python, post it in disscustions
-:(
-‎ 
+- To Install, we are going to install a package manager called Homebrew, beacuase MacOS doesnt have a built-in package manager unlike regual Linux Distros (But if you count App Store as a package manager I guess macos does have a built-in package manager)
+- We Will need to install a package manager called homebrew in order to get the neccisary packages, since **git** doesnt have a PKG or a DMG to download  To install Homebrew we are going to run ```/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"```
+- if it asks for Sudo, a.k.a your password enter it, because it will write to a specific programs folder ```/opt/homebrew``` (Silicon Chips), ```usr/local``` (Intel Chips), and to give it write perms to write in the same protected folders without needing admin everytime.
+- Now that you have Homebrew lets install Python by running ```brew install python``` now that we have **Python** we will need another program called **Git**, this app allows people to clone (copy source code into a folder), and push to github (upload files/changes to a github repository)
+- To install we need to type ```brew install git``` now that we have both **Git** and **Python**, We can now install the program, to clone we will need to run ```git clone https://github.com/HornetMM-Team/HornetMM.git```, this will clone into the folder where zsh (MacOS terminal) is currently located
+- Now we have the program type ```cd HornetMM``` before we run it we gotta install the needed packages with ```pip install -r requirements.txt --break-system-packages```
+- **-break-system-packages**, is needed beacuase Homebrew's Python is 'externaly-managed' meaning to install a package you would need to run ```brew install python-<yourpackage>``` instead of ```pip install <yourpackage>```. now that you have everything installed, run ```python base.py``` and ur done :D
+
+
+
+### Building(Linux/Windows/MacOS(Intel/Silicon); Difficulty: Medium):
+> [!CAUTION]
+> Make SURE you followed the installation steps first
+
+To Build, you want to make sure that you did the installation steps THIS IS IMPORTANT. Now you want to run ```pip install cx_freeze``` or if you installed UV ```uv pip install cx_freeze --system``` or if your using a venv with UV ```uv pip install cx_freeze``` , wait for that to install then run ```python setup.py build```
+It will build for your platform. once your done. just run the file based on your platform (.exe for windows, no file extention for linux/macos), Icons should be: .ico for windows, .icns for MacOS, .png for Linux
 
 ‎ 
 ‎<h1>Current Issues:</h1>
