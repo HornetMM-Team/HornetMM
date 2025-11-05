@@ -4,7 +4,7 @@ try:
     import os
     from tkinter import filedialog
     from PIL import Image
-    from BepInExInstall import ModInstaller  # The class name is ModInstaller
+    from hmm.BepInExInstall import ModInstaller  # The class name is ModInstaller
     from menus.SettingsMenu import Settings
     from CTkMenuBar import CTkTitleMenu, CustomDropdownMenu
     import platform
