@@ -50,8 +50,8 @@ class BepInExMenu(customtkinter.CTkToplevel):
         self.progress.pack(pady=10, padx=20)
         
 
-            with open("bepinex.zip", "wb") as f:
-                for data in self.progress(): #type:ignore
+        with open("bepinex.zip", "wb") as f:
+            for data in self.progress(): #type:ignore
                     
                     
 
