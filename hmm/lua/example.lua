@@ -27,3 +27,4 @@ function hmm.extfeatures()
     -- Or add all features at once
     hmm.addextfeature(features)
 end
+

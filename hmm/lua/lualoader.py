@@ -24,6 +24,7 @@ class LuaModLoader:
         self.lua.globals()['hmm']['setversion'] = self._set_version
         self.lua.globals()['hmm']['addextfeaturevalue'] = self._add_feature_value
         self.lua.globals()['hmm']['addextfeature'] = self._add_feature
+        self.lua.globals()['hmm']['forswitch'] = self._for_switch
         
         # Set up package.preload so require("hmm") returns the hmm table
         self.lua.execute('''
@@ -68,6 +69,11 @@ class LuaModLoader:
                 features_list = [manualfeature]
             self.features.extend(features_list)
             print(f"Added manual features: {features_list}")
+    def _for_switch(self, switch_table):
+        """Handle for switch table"""
+        print("Received forswitch table:")
+        for key, value in switch_table.items():
+            print(f"  {key}: {value}")
     
     def load_mod(self, lua_file_path):
         """Load a Lua mod file"""

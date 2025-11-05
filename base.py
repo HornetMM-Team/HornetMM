@@ -4,9 +4,15 @@ try:
     import os
     from tkinter import filedialog
     from PIL import Image
-    from menus.ModMenu import ModInstaller  # The class name is ModInstaller
+    from BepInExInstall import ModInstaller  # The class name is ModInstaller
     from menus.SettingsMenu import Settings
     from CTkMenuBar import CTkTitleMenu, CustomDropdownMenu
+    import platform
+
+    arch = platform.architecture()[0]
+    if arch == "ARM64":
+        print("x86/x64 only, If your on windows consider enabling Prism")
+        exit(1)
 
 
     # Settings defaults
