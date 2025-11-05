@@ -1,2 +1,4 @@
 base.dist
 base.build
+rustthingy/Cargo.lock
+rustthingy/target

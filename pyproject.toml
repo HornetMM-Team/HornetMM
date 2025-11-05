@@ -1,0 +1,31 @@
+[build-system]
+requires = ["uv_build >= 9.9.5, <0.10.0"]
+build-backend = "uv_build"
+
+[project]
+name = "Hornet Mod Manager"
+version = "0.1.0"
+dependencies = {file = ["requirements.txt"]}
+requires-python = ">=3.10"
+authors = [
+    {name = "Barrett Becker", email = "barrettbecker19@gmail.com"}
+]
+maintainers = [
+    {name = "Barrett Becker", email = "barrettbecker19@gmail.com"}
+]
+description = "A simple Crossplatform Mod Manager for Hollow Knight (soon to add switch support)"
+readme = "README.md"
+license = "PPL v1.0"
+license-files = ["LICENSE.md"]
+keyworks = ["hollow knight", "mod manager", "modding", "crossplatform"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Programming Language :: Python"
+],
+
+[project.optional-dependencies]
+gui = ["customtkinter"]
+
+[project.urls]
+Homepage = 
+
