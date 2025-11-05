@@ -19,7 +19,6 @@ try:
     defaults = {
         "theme": "system",
         "hollowknightpath": "",
-        "silksongpath": ""
     }
 
     settings_path = "settings.json"

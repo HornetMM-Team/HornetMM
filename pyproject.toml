@@ -17,7 +17,7 @@ description = "A simple Crossplatform Mod Manager for Hollow Knight (soon to add
 readme = "README.md"
 license = "PPL v1.0"
 license-files = ["LICENSE.md"]
-keyworks = ["hollow knight", "mod manager", "modding", "crossplatform"]
+keyworks = ["hollowknight", "modmanager", "modding", "crossplatform"]
 classifiers = [
     "Development Status :: 4 - Beta",
     "Programming Language :: Python"
@@ -27,5 +27,5 @@ classifiers = [
 gui = ["customtkinter"]
 
 [project.urls]
-Homepage = 
+Homepage = "https://hornetmm-team.github.io/-/"
 

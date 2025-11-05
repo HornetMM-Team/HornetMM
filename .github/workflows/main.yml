@@ -1,79 +1,83 @@
-name: Build HornetMM (cx_Freeze)
+name: Build HornetMM(Nuitka)
 
 on:
   push:
     branches: [ main ]
   pull_request:
     branches: [ main ]
-  workflow_dispatch:  # allows manual runs
+  release:
+    types: [ created ]
 
 jobs:
   build:
-    name: Build on ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-
+        include:
+          - os: windows-latest
+            artifact_name: app-windows
+            icon: icon.ico
+          - os: macos-latest
+            artifact_name: app-macos
+            icon: icon_macos.icns
+          - os: ubuntu-latest
+            artifact_name: app-linux
+            icon: icon_linux.png
+    
+    runs-on: ${{ matrix.os }}
+    
     steps:
-      # 1️⃣ Checkout repo
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      # 2️⃣ Preinstall step (macOS-specific setup)
-      - name: Preinstall dependencies (macOS only)
-        if: runner.os == 'macOS'
-        run: |
-          echo "Running macOS preinstall..."
-          # Ensure Homebrew exists
-          which brew || /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-          # Update brew and install core build tools
-          brew update
-          brew install python3 || true
-          brew install llvm || true
-          brew install pkg-config || true
-          # Fix linker issues with cx_Logging by using LLVM clang
-          echo "export CC=$(brew --prefix llvm)/bin/clang" >> $GITHUB_ENV
-          echo "export CXX=$(brew --prefix llvm)/bin/clang++" >> $GITHUB_ENV
-
-      # 3️⃣ Set up Python
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-
-      # 4️⃣ Install dependencies
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install cx_Freeze
-          pip install -r requirements.txt
-
-      # 5️⃣ Build the executable
-      - name: Build with cx_Freeze
-        run: python setup.py build
-
-      # 6️⃣ Rename build output folders for clarity
-      - name: Rename output folder (Windows)
-        if: runner.os == 'Windows'
-        run: move build HornetMM_Windows
-        shell: cmd
-
-      - name: Rename output folder (macOS)
-        if: runner.os == 'macOS'
-        run: mv build HornetMM_macOS
-
-      - name: Rename output folder (Linux)
-        if: runner.os == 'Linux'
-        run: mv build HornetMM_Linux
-
-      # 7️⃣ Upload built executables as artifacts
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: HornetMM_${{ runner.os }}
-          path: |
-            HornetMM_Windows/**
-            HornetMM_macOS/**
-            HornetMM_Linux/**
-          if-no-files-found: warn
+    - uses: actions/checkout@v3
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    
+    - name: Install system dependencies (Ubuntu)
+      if: matrix.os == 'ubuntu-latest'
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y ccache patchelf
+    
+    - name: Install system dependencies (macOS)
+      if: matrix.os == 'macos-latest'
+      run: |
+        brew install ccache
+    
+    - name: Install Python dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install nuitka ordered-set
+        pip install -r hmm/requirements.txt
+    
+    - name: Build with Nuitka (Windows)
+      if: matrix.os == 'windows-latest'
+      run: |
+        cd hmm
+        python -m nuitka --standalone --onefile --windows-icon-from-ico=${{ matrix.icon }} --include-data-dir=folder1=folder1 --include-data-dir=folder2=folder2 --include-data-dir=assets=assets --enable-plugin=no-qt --output-dir=dist --output-filename=MyApp.exe your_script.py
+    
+    - name: Build with Nuitka (macOS)
+      if: matrix.os == 'macos-latest'
+      run: |
+        cd hmm
+        python -m nuitka --standalone --onefile --macos-create-app-bundle --macos-app-icon=${{ matrix.icon }} --include-data-dir=folder1=folder1 --include-data-dir=folder2=folder2 --include-data-dir=assets=assets --enable-plugin=no-qt --output-dir=dist --output-filename=MyApp your_script.py
+    
+    - name: Build with Nuitka (Linux)
+      if: matrix.os == 'ubuntu-latest'
+      run: |
+        cd hmm
+        python -m nuitka --standalone --onefile --linux-icon=${{ matrix.icon }} --include-data-dir=folder1=folder1 --include-data-dir=folder2=folder2 --include-data-dir=assets=assets --enable-plugin=no-qt --output-dir=dist --output-filename=MyApp your_script.py
+    
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: ${{ matrix.artifact_name }}
+        path: hmm/dist/MyApp*
+    
+    - name: Upload to Release
+      if: github.event_name == 'release'
+      uses: softprops/action-gh-release@v1
+      with:
+        files: hmm/dist/MyApp*
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
