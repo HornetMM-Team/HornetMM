@@ -1,10 +1,15 @@
-import requests
-import customtkinter
+import requests #type:ignore
+import customtkinter 
 import zipfile
 import platform
+import os
+import rootpath
 
 arch = platform.architecture()[0]
-os = platform.system().lower()
+curos = platform.system().lower()
+root = os.path.join(rootpath.detect(), "hmm") #type:ignore
+
+bepinex_dir = os.path.abspath(os.sep)
 
 
 
@@ -12,8 +17,9 @@ os = platform.system().lower()
 class BepInExMenu(customtkinter.CTkToplevel):
     def __init__(self, parent):
         super().__init__(parent)
-        self.geometry("400x200")
+        self.geometry("450x450")
         self.title("BepInEx Installer")
+        
 
         self.label = customtkinter.CTkLabel(self, text="Install BepInEx for Hollow Knight")
         self.label.pack(pady=10)
@@ -21,14 +27,21 @@ class BepInExMenu(customtkinter.CTkToplevel):
         self.install_button = customtkinter.CTkButton(self, text="Install BepInEx", command=self.install_bepinex)
         self.install_button.pack(pady=10)
 
+        self.log = customtkinter.CTkTextbox(self, width=360, height=250)
+        self.log.pack(pady=10, padx=20)
+        self.log.configure(state="disabled")
+
+        self.progress = customtkinter.CTkProgressBar(self, orientation="horizontal", mode="determinate", width=360)
+        self.progress.pack()
+
     def install_bepinex(self):
             
         # find os and get correct name for bepinex download
-        if os == "windows":
+        if curos == "windows":
             osbep = "win"
-        elif os == "darwin":
+        elif curos == "darwin":
             osbep = "macos"
-        elif os == "linux":
+        elif curos == "linux":
             osbep = "linux"
 
         if arch == "64bit":
@@ -45,13 +58,9 @@ class BepInExMenu(customtkinter.CTkToplevel):
         bep = requests.get(urlbep, stream=True) 
         total_size = int(bep.headers['content-length'])
 
-
-        self.progress = customtkinter.CTkProgressBar(self, width=360)
-        self.progress.pack(pady=10, padx=20)
+  
         
 
-        with open("bepinex.zip", "wb") as f:
-            for data in self.progress(): #type:ignore
                     
                     
 
