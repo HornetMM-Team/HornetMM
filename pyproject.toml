@@ -7,3 +7,11 @@ requires-python = ">=3.12"
 authors = [
     {name = "Barrett", email = "barrettbecker19@gmail.com"}
 ]
+
+
+[tools.uv]
+environments = [
+    "sys_platform == 'linux'",
+    "sys_platform == 'darwin'",
+    "sys_platform == 'windows'"
+]

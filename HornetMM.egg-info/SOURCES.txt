@@ -5,10 +5,10 @@ HornetMM.egg-info/PKG-INFO
 HornetMM.egg-info/SOURCES.txt
 HornetMM.egg-info/dependency_links.txt
 HornetMM.egg-info/top_level.txt
-hmm/BepInExInstall.py
 hmm/__init__.py
 hmm/base.py
 hmm/lua/lualoader.py
+hmm/menus/BepInExInstall.py
 hmm/menus/ModManagement.py
 hmm/menus/SettingsMenu.py
 hmm/menus/__init__.py

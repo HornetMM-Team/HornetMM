@@ -1,4 +1,4 @@
-name: Build HornetMM(Nuitka)
+name: Build HornetMM
 
 on:
   push:
@@ -14,70 +14,97 @@ jobs:
       matrix:
         include:
           - os: windows-latest
-            artifact_name: app-windows
-            icon: icon.ico
+            artifact_name: HornetMM-Windows
+            output_file: HornetMM.exe
           - os: macos-latest
-            artifact_name: app-macos
-            icon: icon_macos.icns
+            artifact_name: HornetMM-macOS
+            output_file: HornetMM.bin
           - os: ubuntu-latest
-            artifact_name: app-linux
-            icon: icon_linux.png
+            artifact_name: HornetMM-Linux
+            output_file: HornetMM.bin
     
     runs-on: ${{ matrix.os }}
     
     steps:
-    - uses: actions/checkout@v3
+    - name: Checkout repository
+      uses: actions/checkout@v4
     
     - name: Set up Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
-        python-version: '3.11'
-    
-    - name: Install system dependencies (Ubuntu)
-      if: matrix.os == 'ubuntu-latest'
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y ccache patchelf
-    
-    - name: Install system dependencies (macOS)
-      if: matrix.os == 'macos-latest'
-      run: |
-        brew install ccache
+        python-version: '3.13'
+        architecture: 'x64'
     
     - name: Install Python dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install nuitka ordered-set
-        pip install -r hmm/requirements.txt
+        pip install -r requirements.txt
     
     - name: Build with Nuitka (Windows)
       if: matrix.os == 'windows-latest'
-      run: |
-        cd hmm
-        python -m nuitka --standalone --onefile --windows-icon-from-ico=${{ matrix.icon }} --include-data-dir=folder1=folder1 --include-data-dir=folder2=folder2 --include-data-dir=assets=assets --enable-plugin=no-qt --output-dir=dist --output-filename=MyApp.exe your_script.py
+      uses: Nuitka/Nuitka-Action@main
+      with:
+        nuitka-version: main
+        script-name: hmm/base.py
+        onefile: true
+        standalone: true
+        windows-icon-from-ico: hmm/icon.ico
+        enable-plugins: tk-inter
+        include-data-dir: |
+          hmm/images=images
+          hmm/lua=lua
+          hmm/menus=menus
+        output-file: HornetMM.exe
     
     - name: Build with Nuitka (macOS)
       if: matrix.os == 'macos-latest'
-      run: |
-        cd hmm
-        python -m nuitka --standalone --onefile --macos-create-app-bundle --macos-app-icon=${{ matrix.icon }} --include-data-dir=folder1=folder1 --include-data-dir=folder2=folder2 --include-data-dir=assets=assets --enable-plugin=no-qt --output-dir=dist --output-filename=MyApp your_script.py
+      uses: Nuitka/Nuitka-Action@main
+      with:
+        nuitka-version: main
+        script-name: hmm/base.py
+        onefile: true
+        standalone: true
+        macos-create-app-bundle: true
+        macos-app-icon: hmm/icon_macos.icns
+        enable-plugins: tk-inter
+        include-data-dir: |
+          hmm/images=images
+          hmm/lua=lua
+          hmm/menus=menus
+        output-file: HornetMM
     
     - name: Build with Nuitka (Linux)
       if: matrix.os == 'ubuntu-latest'
-      run: |
-        cd hmm
-        python -m nuitka --standalone --onefile --linux-icon=${{ matrix.icon }} --include-data-dir=folder1=folder1 --include-data-dir=folder2=folder2 --include-data-dir=assets=assets --enable-plugin=no-qt --output-dir=dist --output-filename=MyApp your_script.py
+      uses: Nuitka/Nuitka-Action@main
+      with:
+        nuitka-version: main
+        script-name: hmm/base.py
+        onefile: true
+        standalone: true
+        linux-icon: hmm/menus/icon_linux.png
+        enable-plugins: tk-inter
+        include-data-dir: |
+          hmm/images=images
+          hmm/lua=lua
+          hmm/menus=menus
+        output-file: HornetMM
     
     - name: Upload artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: ${{ matrix.artifact_name }}
-        path: hmm/dist/MyApp*
+        path: |
+          build/*.exe
+          build/*.bin
+          build/*.app/**/*
     
     - name: Upload to Release
       if: github.event_name == 'release'
       uses: softprops/action-gh-release@v1
       with:
-        files: hmm/dist/MyApp*
+        files: |
+          build/*.exe
+          build/*.bin
+          build/*.app/**/*
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -4,7 +4,7 @@ try:
     import os
     from tkinter import filedialog
     from PIL import Image
-    from hmm.menus.BepInExInstall import ModInstaller  # The class name is ModInstaller
+    from menus.BepInExInstall import BepInExMenu  # The class name is ModInstaller
     from menus.SettingsMenu import Settings
     from CTkMenuBar import CTkTitleMenu, CustomDropdownMenu
     import platform
@@ -215,13 +215,13 @@ try:
                 
                 if hollowpath and os.path.exists(hollowpath):
                     # Path exists, open mod installer with saved path
-                    mod_installer = ModInstaller(self, install_path=hollowpath)
+                    mod_installer = BepInExMenu(self)
                 else:
                     # No path or invalid path, ask user to select
                     selected_path = self.find_hollow_knight_dir()
                     if selected_path:
                         # After saving, open mod installer with new path
-                        mod_installer = ModInstaller(self, install_path=selected_path)
+                        mod_installer = BepInExMenu(self)
             except Exception as e:
                 print(f"Error opening Hollow Knight mod menu: {e}")
 
@@ -234,13 +234,13 @@ try:
                 
                 if silksongpath and os.path.exists(silksongpath):
                     # Path exists, open mod menu
-                    mod_menu = ModInstaller(self)
+                    print("too lazy to remove silksong functions 😭😭")
                 else:
                     # No path or invalid path, ask user to select
                     selected_path = self.find_silksong_dir()
                     if selected_path:
                         # After saving, open mod menu
-                        mod_menu = ModInstaller(self)
+                        print("too lazy to remove silksong functions 😭😭")
             except Exception as e:
                 print(f"Error opening Silksong mod menu: {e}")
         
