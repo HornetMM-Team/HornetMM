@@ -33,13 +33,12 @@
 
 Goals In Project:
 - [x] Add BepinEx/Hollow Knight Modding Api Support For Hollow knight
-- [ ] Add Thunderstore support for Silksong
+- [ ] Open Thunderstore Mod Manager Default for silksong
 - [x] Add 1-click support
 - [ ] Add To flatpak for Steam Deck
 - [ ] Add Proper MonoMod detection
 - [x] Make settings.json work
 - [ ] Add Switch Support
-- [ ] 
  <img width="209" height="148" alt="image" src="https://github.com/user-attachments/assets/038ba7ec-70bd-46fd-b357-d3972bc2cc7d" />
 
 
