@@ -9,6 +9,7 @@ try:
     from CTkMenuBar import * #type:ignore
     import platform
     
+    sys = (platform.system())
 
     arch = platform.architecture()[0]
     if arch == "ARM64":
@@ -83,7 +84,7 @@ try:
             self.last_modified = os.path.getmtime(settings_path)
             
             # Menu bar
-            if platform == "windows":
+            if sys == "Windows":
                 self.menu = CTkTitleMenu(master=self)
                 self.button = self.menu.add_cascade("Menu")
                 self.dropdown = CustomDropdownMenu(widget=self.button)
@@ -91,7 +92,7 @@ try:
                 self.submenu = self.dropdown.add_submenu("File")
                 self.submenu.add_option("Open Hollow Knight™ Path", command=self.find_hollow_knight_dir)
                 self.submenu.add_option("Open Hollow Knight: Silksong™ Path", command=self.find_silksong_dir)
-            elif platform == "macos" or "linux" or "unkown":
+            else:
                 print("Not supported on this OS")
             
             # Title label
