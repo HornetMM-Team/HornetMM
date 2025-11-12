@@ -40,7 +40,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    # Windows Build
+    # 🪟 Windows Build
     - name: Build with Nuitka (Windows)
       if: matrix.os == 'windows-latest'
       run: |
@@ -50,11 +50,12 @@ jobs:
           --include-data-dir=hmm/images=images ^
           --include-data-dir=hmm/lua=lua ^
           --include-data-dir=hmm/menus=menus ^
+          --output-dir=build ^
           --output-filename=HornetMM.exe ^
           hmm/base.py
       shell: cmd
 
-    # macOS Build (.app bundle)
+    # 🍏 macOS Build
     - name: Build with Nuitka (macOS)
       if: matrix.os == 'macos-latest'
       run: |
@@ -65,10 +66,11 @@ jobs:
           --include-data-dir=hmm/images=images \
           --include-data-dir=hmm/lua=lua \
           --include-data-dir=hmm/menus=menus \
+          --output-dir=build \
           --output-filename=HornetMM.app \
           hmm/base.py
 
-    # Linux Build
+    # 🐧 Linux Build
     - name: Build with Nuitka (Linux)
       if: matrix.os == 'ubuntu-latest'
       run: |
@@ -78,30 +80,18 @@ jobs:
           --include-data-dir=hmm/images=images \
           --include-data-dir=hmm/lua=lua \
           --include-data-dir=hmm/menus=menus \
+          --output-dir=build \
           --output-filename=HornetMM \
           hmm/base.py
 
-    - name: Create build directory
-      run: mkdir build
-
-    - name: Move outputs to build/
-      run: |
-        if [ -d "HornetMM.app" ]; then
-          mv "HornetMM.app" build/
-        elif [ -f "HornetMM.exe" ]; then
-          mv "HornetMM.exe" build/
-        elif [ -f "HornetMM" ]; then
-          mv "HornetMM" build/
-        elif [ -f "dist/HornetMM" ]; then
-          mv "dist/HornetMM" build/
-        fi
-
+    # 📦 Upload build artifacts
     - name: Upload artifacts
       uses: actions/upload-artifact@v4
       with:
         name: ${{ matrix.artifact_name }}
         path: build/**
 
+    # 🚀 Upload to Release (only when a release is created)
     - name: Upload to Release
       if: github.event_name == 'release'
       uses: softprops/action-gh-release@v1
