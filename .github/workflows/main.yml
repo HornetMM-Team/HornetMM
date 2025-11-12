@@ -46,8 +46,7 @@ jobs:
       with:
         nuitka-version: main
         script-name: hmm/base.py
-        onefile: true
-        standalone: true
+        mode: onefile
         windows-icon-from-ico: hmm/icon.ico
         enable-plugins: tk-inter
         include-data-dir: |
@@ -62,9 +61,8 @@ jobs:
       with:
         nuitka-version: main
         script-name: hmm/base.py
-        onefile: true
-        standalone: true
-        macos-create-app-bundle: true
+        mode: onefile
+        macos-app-mode: bundle
         macos-app-icon: hmm/icon_macos.icns
         enable-plugins: tk-inter
         include-data-dir: |
@@ -79,8 +77,7 @@ jobs:
       with:
         nuitka-version: main
         script-name: hmm/base.py
-        onefile: true
-        standalone: true
+        mode: onefile
         linux-icon: hmm/menus/icon_linux.png
         enable-plugins: tk-inter
         include-data-dir: |

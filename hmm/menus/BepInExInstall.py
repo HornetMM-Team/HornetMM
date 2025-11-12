@@ -12,10 +12,11 @@ curos = platform.system().lower()
 bepinex_dir = os.path.abspath(os.sep)
 
 
-class BepInExMenu(customtkinter.CTkFrame):
+class BepInExMenu(customtkinter.CTkToplevel):
     def __init__(self, master):
         super().__init__(master)
-        self.pack(padx=20, pady=20)
+        self.title("BepInEx Installer")
+        self.geometry("400x500")
 
         # Button
         self.install_button = customtkinter.CTkButton(
@@ -244,8 +245,8 @@ if __name__ == "__main__":
 
     root = customtkinter.CTk()
     root.title("BepInEx Downloader")
+    root.withdraw()  # Hide the main window
 
     app = BepInExMenu(root)
-    app.pack(fill="both", expand=True)
 
     root.mainloop()
