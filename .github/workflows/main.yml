@@ -62,7 +62,7 @@ jobs:
         nuitka-version: main
         script-name: hmm/base.py
         mode: onefile
-        macos-app-mode: bundle
+        macos-app-mode: gui
         macos-app-icon: hmm/icon_macos.icns
         enable-plugins: tk-inter
         include-data-dir: |
