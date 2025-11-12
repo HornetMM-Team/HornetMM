@@ -6,8 +6,9 @@ try:
     from PIL import Image
     from menus.BepInExInstall import BepInExMenu  # The class name is ModInstaller
     from menus.SettingsMenu import Settings
-    from CTkMenuBar import CTkTitleMenu, CustomDropdownMenu
+    from CTkMenuBar import * #type:ignore
     import platform
+    
 
     arch = platform.architecture()[0]
     if arch == "ARM64":
@@ -82,13 +83,16 @@ try:
             self.last_modified = os.path.getmtime(settings_path)
             
             # Menu bar
-            self.menu = CTkTitleMenu(master=self)
-            self.button = self.menu.add_cascade("Menu")
-            self.dropdown = CustomDropdownMenu(widget=self.button)
-            self.dropdown.add_option("Quit", command=self.quit)
-            self.submenu = self.dropdown.add_submenu("File")
-            self.submenu.add_option("Open Hollow Knight™ Path", command=self.find_hollow_knight_dir)
-            self.submenu.add_option("Open Hollow Knight: Silksong™ Path", command=self.find_silksong_dir)
+            if platform == "windows":
+                self.menu = CTkTitleMenu(master=self)
+                self.button = self.menu.add_cascade("Menu")
+                self.dropdown = CustomDropdownMenu(widget=self.button)
+                self.dropdown.add_option("Quit", command=self.quit)
+                self.submenu = self.dropdown.add_submenu("File")
+                self.submenu.add_option("Open Hollow Knight™ Path", command=self.find_hollow_knight_dir)
+                self.submenu.add_option("Open Hollow Knight: Silksong™ Path", command=self.find_silksong_dir)
+            elif platform == "macos" or "linux" or "unkown":
+                print("Not supported on this OS")
             
             # Title label
             self.label = customtkinter.CTkLabel(
