@@ -17,7 +17,7 @@ try:
         exit(1)
     else:
         pass
-    if sys == "linux":
+    if sys == "Linux":
         customtkinter.set_default_color_theme("themes/gnome-theme.json")
     else:
         pass
