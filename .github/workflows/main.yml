@@ -40,6 +40,12 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
+    # 🪟 Windows C++ Build Tools (required for Nuitka)
+    - name: Install MSVC Build Tools
+      if: matrix.os == 'windows-latest'
+      run: |
+        choco install visualstudio2022buildtools --params "--add Microsoft.VisualStudio.Workload.VCTools --includeRecommended --passive --norestart" -y
+
     # 🪟 Windows Build
     - name: Build with Nuitka (Windows)
       if: matrix.os == 'windows-latest'
