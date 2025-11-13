@@ -15,6 +15,12 @@ try:
     if arch == "ARM64":
         print("x86/x64 only, If your on windows consider enabling Prism")
         exit(1)
+    else:
+        pass
+    if sys == "linux":
+        customtkinter.set_default_color_theme("themes/gnome-theme.json")
+    else:
+        pass
 
 
     # Settings defaults
