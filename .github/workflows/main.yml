@@ -39,23 +39,25 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
+        python -m pip install tk  # ensures tkinter plugin works
 
     # 🪟 Windows C++ Build Tools (required for Nuitka)
     - name: Install MSVC Build Tools
       if: matrix.os == 'windows-latest'
       run: |
         choco install visualstudio2022buildtools --params "--add Microsoft.VisualStudio.Workload.VCTools --includeRecommended --passive --norestart" -y
+        refreshenv
 
     # 🪟 Windows Build
     - name: Build with Nuitka (Windows)
       if: matrix.os == 'windows-latest'
       run: |
         python -m nuitka --onefile ^
-          --windows-icon-from-ico=hmm/icon.ico ^
+          --windows-icon-from-ico="hmm/icon.ico" ^
           --enable-plugin=tk-inter ^
-          --include-data-dir=hmm/images=images ^
-          --include-data-dir=hmm/lua=lua ^
-          --include-data-dir=hmm/menus=menus ^
+          --include-data-dir="hmm/images=images" ^
+          --include-data-dir="hmm/lua=lua" ^
+          --include-data-dir="hmm/menus=menus" ^
           --output-dir=build ^
           --output-filename=HornetMM.exe ^
           hmm/base.py
@@ -67,11 +69,11 @@ jobs:
       run: |
         python -m nuitka --onefile \
           --macos-app-mode=gui \
-          --macos-app-icon=hmm/icon_macos.icns \
+          --macos-app-icon="hmm/icon_macos.icns" \
           --enable-plugin=tk-inter \
-          --include-data-dir=hmm/images=images \
-          --include-data-dir=hmm/lua=lua \
-          --include-data-dir=hmm/menus=menus \
+          --include-data-dir="hmm/images=images" \
+          --include-data-dir="hmm/lua=lua" \
+          --include-data-dir="hmm/menus=menus" \
           --output-dir=build \
           --output-filename=HornetMM.app \
           hmm/base.py
@@ -81,11 +83,11 @@ jobs:
       if: matrix.os == 'ubuntu-latest'
       run: |
         python -m nuitka --onefile \
-          --linux-icon=hmm/menus/icon_linux.png \
+          --linux-icon="hmm/menus/icon_linux.png" \
           --enable-plugin=tk-inter \
-          --include-data-dir=hmm/images=images \
-          --include-data-dir=hmm/lua=lua \
-          --include-data-dir=hmm/menus=menus \
+          --include-data-dir="hmm/images=images" \
+          --include-data-dir="hmm/lua=lua" \
+          --include-data-dir="hmm/menus=menus" \
           --output-dir=build \
           --output-filename=HornetMM \
           hmm/base.py
