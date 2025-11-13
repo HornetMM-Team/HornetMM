@@ -93,7 +93,13 @@ try:
                 self.submenu.add_option("Open Hollow Knight™ Path", command=self.find_hollow_knight_dir)
                 self.submenu.add_option("Open Hollow Knight: Silksong™ Path", command=self.find_silksong_dir)
             else:
-                print("Not supported on this OS")
+                self.menu = CTkMenuBar(master=self)
+                self.button = self.menu.add_cascade("Menu")
+                self.dropdown = CustomDropdownMenu(widget=self.button)
+                self.dropdown.add_option("Quit", command=self.quit)
+                self.submenu = self.dropdown.add_submenu("File")
+                self.submenu.add_option("Open Hollow Knight™ Path", command=self.find_hollow_knight_dir)
+                self.submenu.add_option("Open Hollow Knight: Silksong™ Path", command=self.find_silksong_dir)
             
             # Title label
             self.label = customtkinter.CTkLabel(
