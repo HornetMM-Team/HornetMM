@@ -1,0 +1,30 @@
+KK umm hi or smth?
+
+When I made this engine, I thought that C# was anoying and compilcated as f*ck. so I deviced my own solutions to this problem.
+using a simpler language like Python to make it easy for people can easily modify this mod manager as they please without learning rocket science.
+At first I thought Golang, because it was simple for a compiled language, but at the time i didnt really know golang so i was out of golang. I only really knew Python
+so, I did python, but it is a interperted language, meaning it translates the code into machine code, meaning people would need to download python, but most of you dont really care to,
+so I tried using a software called nuitka, in my years of using python, I knew python to executable libaries were..... complicated and easily deteced as a virus by most anti-virus's
+
+
+DEV NOTES:
+
+For Lua oneclick make sure you include 'local hmm = require("hmm")', to work with the hmm library you DO NOT need python. beacuse I used lupa which was cross-readable.
+python to lua, lua to python
+
+1. Features
+    To Include custom features include hmm.features = {}, extra features are a table, so you can do anything you want (to me they are optinal tags)
+2. Set info 
+    2.1 Name(Required)
+        To Set the name simply use 'hmm.setname(<yournamevarable/string>)
+    2.2 Authour (Optional)
+        To set the author simply use 'hmm.setathour(<yourathourvarable/string>)
+    2.3 Description(Required)
+        To set the Mod Description simply add 'hmm.setdescription(<yourdescvarable/string>)'
+    2.4 Set Version (Optional)
+        To set the Mod Version simply add 'hmm.setversion(<yourversionvarable/string>)'
+    2.5 Append Extra Features
+        To add all your features by going one by one add a for loop like this 'for i, feature in ipairs(<featuresvar/string>) do', and to add the feautres inside for loop ' hmm.addextfeaturevalue(<featuresvar/string>)' then end it with 'end'
+        or add all of them at once ' hmm.addextfeature(<featuresvar/string>)' then end it with 'end'
+3. Functions
+    The only current functions are to append all the features into one function. 'function hmm.info()' to and add the hmm.set's into the function. make sure to add 'end' when your done
