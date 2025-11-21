@@ -1,3 +1,3 @@
-# What tf is this
+# What is this Folder?
 
-**Bassically all the files needed for executign**
+**The base folder for everything, Including the themes, lua, oneclick, and everything else**
