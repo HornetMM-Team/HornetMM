@@ -48,7 +48,6 @@ try:
         print(f"Error reading settings: {ex}")
         settings = defaults.copy()
 
-    # --- Step 3: Compare defaults vs current and fix missing/extra values ---
     changed = False
     
     # Add missing keys from defaults
@@ -71,11 +70,16 @@ try:
             json.dump(settings, jw, indent=4)
         print("Settings file updated.")
 
-    # --- Step 4: Apply theme ---
+    # --- Step 3: Apply theme ---
     customtkinter.set_appearance_mode(settings["theme"])
     print(f"Applied theme: {settings['theme']}")
 
-    # --- Step 5: Create app ---
+
+
+
+    
+
+    # --- Step 4: Create app ---
     class App(customtkinter.CTk):
         def __init__(self):
             super().__init__()
@@ -317,5 +321,7 @@ except KeyboardInterrupt:
     print("\nYou closed the app")
 except Exception as e:
     print(f"An error has occurred: {e}")
-    import traceback
-    traceback.print_exc()
+import traceback
+traceback.print_exc()
+
+

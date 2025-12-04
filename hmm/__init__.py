@@ -1,1 +1,1 @@
-import hmm.base as base
+import HornetMM as HornetMM

@@ -23,7 +23,12 @@ class Settings(customtkinter.CTkToplevel):
         self.label = customtkinter.CTkLabel(self, text="Settings:")
         self.label.pack(pady=10)
 
-        self.about_button = customtkinter.CTkButton(self, text="Open About Menu")
+        def open_about_menu():
+            from AboutMenu import AboutMenu
+            about_menu = AboutMenu(self)
+            about_menu.deiconify()
+
+        self.about_button = customtkinter.CTkButton(self, text="Open About Menu", command=open_about_menu)
         self.about_button.pack(pady=10)
 
         # Create the button here in __init__, not inside the method
