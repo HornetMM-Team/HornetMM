@@ -32,7 +32,7 @@ rootpath==0.1.1
 six==1.17.0
 termcolor==3.2.0
 tox==4.32.0
-urllib3==2.5.0
+urllib3==2.6.0
 vdf==3.4
 virtualenv==20.35.4
 zstandard==0.25.0
